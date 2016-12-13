@@ -2,7 +2,7 @@
 
 use Monger\SearchRequest\SearchRequest;
 
-class InvalidTest extends \PHPUnit_Framework_TestCase {
+class InvalidationTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @var \Monger\SearchRequest\SearchRequest

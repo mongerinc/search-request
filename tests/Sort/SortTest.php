@@ -1,4 +1,4 @@
-<?php namespace Monger\SearchRequest\Tests;
+<?php namespace Monger\SearchRequest\Tests\Sort;
 
 use Monger\SearchRequest\SearchRequest;
 

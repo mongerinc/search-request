@@ -1,0 +1,24 @@
+{
+    "name": "mongerinc/search-request",
+    "description": "Requester class to wrap guzzle and retry subscriber",
+    "homepage": "https://github.com/mongerinc/search-request",
+    "keywords": ["search", "request", "query", "filter", "group", "pagination"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jan Hartigan"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Monger\\SearchRequest\\": "src",
+            "Monger\\SearchRequest\\Tests\\": "tests"
+        }
+    }
+}

@@ -1,6 +1,6 @@
 {
     "name": "mongerinc/search-request",
-    "description": "Requester class to wrap guzzle and retry subscriber",
+    "description": "Represent complex search queries and convert them to and from JSON",
     "homepage": "https://github.com/mongerinc/search-request",
     "keywords": ["search", "request", "query", "filter", "group", "pagination"],
     "license": "MIT",

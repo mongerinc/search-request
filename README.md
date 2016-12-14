@@ -6,8 +6,8 @@ Table of contents
 -----------------
 * [Installation](#installation)
 * [Usage](#usage)
-** [Sorting](#sorting)
-** [Pagination](#pagination)
+  ** [Sorting](#sorting)
+  ** [Pagination](#pagination)
 
 ### Installation
 

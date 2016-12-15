@@ -73,7 +73,7 @@ $databaseQuery->take($limit)->skip(($page - 1) * $limit);
 
 #### Filtering
 
-Filtering a `SearchRequest` can be done using the `where()` method. An operator can be provided as the second argument where the possible types are `=`, `>`, `>=`, `<`, `<=`, `!=`, `in`, and `not in`. If no operator is provided, it is assumed to be `=`.
+Filtering a `SearchRequest` can be done using the `where()` method. An operator can be provided as the second argument where the possible types are `=`, `>`, `>=`, `<`, `<=`, `!=`, `in`, `not in`, `like`, `not like`, `exists`, `not exists`, `between`, and `not between`. If no operator is provided, it is assumed to be `=`.
 
 ```php
 $request->where('someField', '>=', 5.45)

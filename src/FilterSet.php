@@ -304,6 +304,46 @@ class FilterSet implements ArrayAccess, Countable, IteratorAggregate {
 	}
 
 	/**
+	 * Converts the filter set into a representative array
+	 *
+	 * @return array
+	 */
+	public function toArray()
+	{
+		return [
+			'boolean' => $this->boolean,
+			'filters' => array_map(function($filter)
+			{
+				return $filter->toArray();
+			}, $this->filters)
+		];
+	}
+
+	/**
+	 * Adds the provided array filters to the filter set
+	 *
+	 * @param  array    $filters
+	 */
+	public function addFiltersFromArray(array $filters)
+	{
+		foreach ($filters as $filter)
+		{
+			if (isset($filter['filters']))
+			{
+				$instance = new FilterSet($filter['boolean']);
+
+				$instance->addFiltersFromArray($filter['filters']);
+			}
+			else
+			{
+				$instance = new Filter($filter['field'], $filter['operator'], $filter['value'], $filter['boolean']);
+			}
+
+			$this->filters[] = $instance;
+		}
+	}
+
+	/**
 	 * Count the number of conditions in this filter set
 	 *
 	 * @return int

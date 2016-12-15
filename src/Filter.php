@@ -86,4 +86,19 @@ class Filter {
 		return $this->boolean === 'or';
 	}
 
+	/**
+	 * Converts the filter to a representative array
+	 *
+	 * @return array
+	 */
+	public function toArray()
+	{
+		return [
+			'field' => $this->field,
+			'operator' => $this->operator,
+			'value' => $this->value,
+			'boolean' => $this->boolean,
+		];
+	}
+
 }

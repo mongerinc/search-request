@@ -54,4 +54,17 @@ class Sort {
 		$this->direction = $this->direction === 'asc' ? 'desc' : 'asc';
 	}
 
+	/**
+	 * Converts the Sort into a simple array
+	 *
+	 * @return array
+	 */
+	public function toArray()
+	{
+		return [
+			'field' => $this->field,
+			'direction' => $this->direction,
+		];
+	}
+
 }

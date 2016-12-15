@@ -200,6 +200,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(count($expectedFilters), count($filterSet));
 		$this->assertEquals($expectedFilterSet['boolean'], $filterSet->getBoolean());
+		$this->assertEquals($expectedFilterSet, $filterSet->toArray());
 
 		foreach ($expectedFilters as $i => $expectedFilter)
 		{

@@ -28,6 +28,8 @@ class SortTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('desc', $request->getSort()->getDirection());
 
 		$this->assertEquals([$request->getSort()], $request->getSorts());
+
+		$this->assertEquals(['field' => 'time', 'direction' => 'desc'], $request->getSort()->toArray());
 	}
 
 	/**
@@ -49,6 +51,9 @@ class SortTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('desc', $sorts[0]->getDirection());
 		$this->assertEquals('size', $sorts[1]->getField());
 		$this->assertEquals('asc', $sorts[1]->getDirection());
+
+		$this->assertEquals(['field' => 'time', 'direction' => 'desc'], $sorts[0]->toArray());
+		$this->assertEquals(['field' => 'size', 'direction' => 'asc'], $sorts[1]->toArray());
 	}
 
 }

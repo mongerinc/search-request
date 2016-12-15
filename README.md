@@ -6,6 +6,7 @@ Table of contents
 -----------------
 * [Installation](#installation)
 * [Usage](#usage)
+  * [JSON](#json)
   * [Sorting](#sorting)
   * [Pagination](#pagination)
   * [Filtering](#filtering)
@@ -27,6 +28,20 @@ $request = new SearchRequest;
 ```
 
 As a starting point, each search request has no sorts, no filters, and no groupings. Pagination starts at page 1 and by default there is a limit of 10 rows per page.
+
+#### JSON
+
+Using the `toJson()` method, each `SearchRequest` instance can be compiled into a JSON string that you can use to communicate across application boundaries.
+
+```
+$request->toJson();
+```
+
+Likewise, you can build a new `SearchRequest` instance using a JSON string that was compiled by a `SearchRequest` instance.
+
+```
+$request = new SearchRequest($json);
+```
 
 #### Sorting
 

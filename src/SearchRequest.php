@@ -34,11 +34,48 @@ class SearchRequest {
 	protected $filterSet;
 
 	/**
-	 * Construct a new empty search request
+	 * @param  mixed    $json    //null | string
 	 */
-	public function __construct()
+	public function __construct($json = null)
 	{
-		$this->filterSet = new FilterSet('and');
+		if ($json)
+		{
+			$inputs = json_decode($json, true);
+
+			$this->page = $inputs['page'];
+			$this->limit = $inputs['limit'];
+			$this->addSortsFromArray($inputs['sorts']);
+			$this->addFilterSetFromArray($inputs['filters']);
+		}
+		else
+		{
+			$this->filterSet = new FilterSet('and');
+		}
+	}
+
+	/**
+	 * Adds the sorts from the provided input array
+	 *
+	 * @param  array    $sorts
+	 */
+	public function addSortsFromArray(array $sorts)
+	{
+		foreach ($sorts as $sort)
+		{
+			$this->addSort($sort['field'], $sort['direction']);
+		}
+	}
+
+	/**
+	 * Adds the filter set from the provided input array
+	 *
+	 * @param  array    $filterSet
+	 */
+	public function addFilterSetFromArray(array $filterSet)
+	{
+		$this->filterSet = new FilterSet($filterSet['boolean']);
+
+		$this->filterSet->addFiltersFromArray($filterSet['filters']);
 	}
 
 	/**
@@ -169,6 +206,31 @@ class SearchRequest {
 	public function getFilters()
 	{
 		return $this->filterSet;
+	}
+
+	/**
+	 * Converts the search request into a representative array
+	 *
+	 * @return array
+	 */
+	public function toArray()
+	{
+		return [
+			'page' => $this->page,
+			'limit' => $this->limit,
+			'sorts' => array_map(function(Sort $sort) {return $sort->toArray();}, $this->sorts),
+			'filters' => $this->filterSet->toArray(),
+		];
+	}
+
+	/**
+	 * Compiles a JSON string from the search request
+	 *
+	 * @return string
+	 */
+	public function toJson()
+	{
+		return json_encode($this->toArray());
 	}
 
 	/**

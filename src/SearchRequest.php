@@ -1,5 +1,6 @@
 <?php namespace Monger\SearchRequest;
 
+use BadMethodCallException;
 use InvalidArgumentException;
 
 class SearchRequest {
@@ -24,6 +25,21 @@ class SearchRequest {
 	 * @var int
 	 */
 	protected $limit = 10;
+
+	/**
+	 * The list of applicable filters
+	 *
+	 * @var FilterSet
+	 */
+	protected $filterSet;
+
+	/**
+	 * Construct a new empty search request
+	 */
+	public function __construct()
+	{
+		$this->filterSet = new FilterSet('and');
+	}
 
 	/**
 	 * Overrides all sorts and sets the given field/direction as the primary sort
@@ -142,6 +158,16 @@ class SearchRequest {
 	}
 
 	/**
+	 * Gets the top-level filter set
+	 *
+	 * @return FilterSet
+	 */
+	public function getFilters()
+	{
+		return $this->filterSet;
+	}
+
+	/**
 	 * Determines if the provided value is integer-like. If it's a string, use a preg_match, otherwise just check if it's an int
 	 *
 	 * @param  mixed    $value
@@ -151,6 +177,28 @@ class SearchRequest {
 	protected function isIntegeric($value)
 	{
 		return is_string($value) ? (preg_match('/^-?[0-9]*$/D', $value) === 1) : is_int($value);
+	}
+
+	/**
+	 * Handle dynamic method calls into the class
+	 *
+	 * @param  string   $method
+	 * @param  array    $parameters
+	 *
+	 * @return mixed
+	 *
+	 * @throws \BadMethodCallException
+	 */
+	public function __call($method, $parameters)
+	{
+		if (strpos(strtolower($method), 'where') !== false)
+		{
+			return call_user_func_array([$this->filterSet, $method], $parameters);
+		}
+
+		$className = static::class;
+
+		throw new BadMethodCallException("Call to undefined method {$className}::{$method}()");
 	}
 
 }

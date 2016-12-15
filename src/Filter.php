@@ -1,0 +1,89 @@
+<?php namespace Monger\SearchRequest;
+
+use InvalidArgumentException;
+
+class Filter {
+
+	/**
+	 * @var string
+	 */
+	protected $field;
+
+	/**
+	 * @var string
+	 */
+	protected $operator;
+
+	/**
+	 * @var mixed
+	 */
+	protected $value;
+
+	/**
+	 * @var string
+	 */
+	protected $boolean;
+
+	/**
+	 * @param  string    $field
+	 * @param  string    $operator
+	 * @param  mixed     $value
+	 * @param  string    $boolean
+	 */
+	public function __construct($field, $operator, $value, $boolean)
+	{
+		$this->field = $field;
+		$this->operator = $operator;
+		$this->value = $value;
+		$this->boolean = $boolean;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getField()
+	{
+		return $this->field;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getOperator()
+	{
+		return $this->operator;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getValue()
+	{
+		return $this->value;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getBoolean()
+	{
+		return $this->boolean;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isAnd()
+	{
+		return $this->boolean === 'and';
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isOr()
+	{
+		return $this->boolean === 'or';
+	}
+
+}

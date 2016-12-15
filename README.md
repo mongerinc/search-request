@@ -8,6 +8,7 @@ Table of contents
 * [Usage](#usage)
   * [Sorting](#sorting)
   * [Pagination](#pagination)
+  * [Filtering](#filtering)
 
 ### Installation
 
@@ -68,4 +69,88 @@ $limit = $request->getLimit();
 $page = $request->getPage();
 
 $databaseQuery->take($limit)->skip(($page - 1) * $limit);
+```
+
+#### Filtering
+
+Filtering a `SearchRequest` can be done using the `where()` method. An operator can be provided as the second argument where the possible types are `=`, `>`, `>=`, `<`, `<=`, `!=`, `in`, and `not in`. If no operator is provided, it is assumed to be `=`.
+
+```php
+$request->where('someField', '>=', 5.45)
+        ->where('isFun', true);            //assumed to be an equality
+```
+
+Reading filters from the search request can be done using the `getFilters()` method:
+
+```php
+foreach ($request->getFilters() as $filter)
+{
+	$databaseQuery->where($filter->getField(), $filter->getOperator(), $filter->getValue());
+}
+```
+
+More complex filtering can be accomplished by using nested conditions. Assuming you wanted to make a request representing the following pseudo-SQL conditional statement:
+
+```sql
+...WHERE goodTimes = true AND (profit > 1000 OR revenue > 1000000)
+```
+
+...you would do the following...
+
+```php
+$request->where('goodTimes', true)
+        ->where(function($filterSet)
+        {
+            $filterSet->where('profit', '>', 1000)
+                      ->orWhere('revenue', '>', 1000000);
+        });
+```
+
+When reading a complex set of conditionals back from the `SearchRequest`, there are several important concepts to understand:
+
+1. Each nesting layer (including the top layer) is represented by a `FilterSet`. A `FilterSet` has a boolean (and/or) and can be comprised of any combination of `Filter` and `FilterSet` objects.
+2. A `Filter` object represents a basic field/value/operator conditional with a boolean (and/or).
+
+Since the nesting of conditionals is theoretically infinite, you may want to implement a recursive function to apply the request to the library of your choice (like a database query builder). An example of this in action:
+
+```php
+protected function makeDatabaseCall($request)
+{
+	$query = $this->newQuery();
+	$filterSet = $request->getFilters(); //the top-level FilterSet object for the request
+
+	$this->applyFilters($query, $filterSet);
+
+	return $query->get();
+}
+
+protected function applyFilters($query, FilterSet $filterSet)
+{
+	foreach ($filterSet as $filter)
+	{
+		//if this is a basic filter, simply apply it
+		if ($filter instanceof Filter)
+		{
+			$this->applyFilter($query, $filter);
+		}
+		//if this is a sub-FilterSet, we want to wrap the condition with the correct boolean function and call this function recursively
+		else if ($filter instanceof FilterSet)
+		{
+			$subFilterSet = $filter;
+			$conditionalFunction = $subFilterSet->isAnd() ? 'where' : 'orWhere';
+
+			$query->{$conditionalFunction}(function($query) use ($subFilterSet)
+			{
+				$this->applyFilters($query, $subFilterSet);
+			});
+		}
+	}
+}
+
+protected function applyFilter($query, Filter $filter)
+{
+	$conditionalFunction = $filter->isAnd() ? 'where' : 'orWhere';
+
+	$query->{$conditionalFunction}($filter->getField(), $filter->getOperator(), $filter->getValue());
+}
 ```

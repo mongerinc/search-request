@@ -262,7 +262,7 @@ class SearchRequest {
 			return call_user_func_array([$this->filterSet, $method], $parameters);
 		}
 
-		$className = static::class;
+		$className = __CLASS__;
 
 		throw new BadMethodCallException("Call to undefined method {$className}::{$method}()");
 	}

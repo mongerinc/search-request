@@ -97,6 +97,8 @@ class SearchRequest {
 	 * @param  int    $page
 	 *
 	 * @return $this
+	 *
+	 * @throws \InvalidArgumentException
 	 */
 	public function page($page)
 	{
@@ -126,6 +128,8 @@ class SearchRequest {
 	 * @param  int    $limit
 	 *
 	 * @return $this
+	 *
+	 * @throws \InvalidArgumentException
 	 */
 	public function limit($limit)
 	{

@@ -108,6 +108,16 @@ foreach ($request->getFilters() as $filter)
 }
 ```
 
+You can also call `getFilter($field)` or `getFilterValue($field)` on the `SearchRequest` or `FilterSet` to get the `Filter`/value respectively of the first filter that matches that field name. This is useful if your filters are relatively simple and you only expect one value for each field name.
+
+```php
+$request->where('foo', true);
+$request->where('foo', '>', 5);
+
+$request->getFilterValue('foo'); //true
+$request->getFilters()->getFilterValue('foo'); //true
+```
+
 More complex filtering can be accomplished by using nested conditions. Assuming you wanted to make a request representing the following pseudo-SQL conditional statement:
 
 ```sql

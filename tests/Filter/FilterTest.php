@@ -36,6 +36,21 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @test
 	 */
+	public function multipleSameField()
+	{
+		$request = new SearchRequest;
+
+		$request->where('someField', false)->where('someField', '>=', 40.24);
+
+		$this->checkRequest($request, $this->buildExpectedFilterSet([
+			['field' => 'someField', 'operator' => '=', 'value' => false, 'boolean' => 'and'],
+			['field' => 'someField', 'operator' => '>=', 'value' => 40.24, 'boolean' => 'and'],
+		]));
+	}
+
+	/**
+	 * @test
+	 */
 	public function operators()
 	{
 		$request = new SearchRequest;
@@ -186,6 +201,15 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
 	protected function checkRequest(SearchRequest $request, array $expectedFilterSet)
 	{
 		$this->checkFilterSet($request->getFilters(), $expectedFilterSet);
+
+		//verify that the first-set top-level filter values match what can be pulled off the request itself
+		$expectedFirstFilterValues = $this->getExpectedFirstFilterValues($expectedFilterSet['filters']);
+
+		foreach ($expectedFirstFilterValues as $key => $value)
+		{
+			$this->assertEquals($value, $request->getFilterValue($key));
+			$this->assertEquals($value, $request->getFilter($key)->getValue());
+		}
 	}
 
 	/**
@@ -202,12 +226,33 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($expectedFilterSet['boolean'], $filterSet->getBoolean());
 		$this->assertEquals($expectedFilterSet, $filterSet->toArray());
 
+		$this->checkFilters($filterSet, $expectedFilters);
+	}
+
+	/**
+	 * Checks the filters against the expected filters for the provided filter set
+	 *
+	 * @param  \Monger\SearchRequest\FilterSet   $filterSet
+	 * @param  array                             $expectedFilters
+	 */
+	protected function checkFilters(FilterSet $filterSet, array $expectedFilters)
+	{
+		//iterate over the expected filters and check each one independently
 		foreach ($expectedFilters as $i => $expectedFilter)
 		{
 			$filter = $filterSet[$i];
 			$checkMethod = isset($expectedFilter['filters']) ? 'checkFilterSet' : 'checkFilter';
 
 			$this->$checkMethod($filter, $expectedFilter);
+		}
+
+		//verify that the first-set top-level filter values match
+		$expectedFirstFilterValues = $this->getExpectedFirstFilterValues($expectedFilters);
+
+		foreach ($expectedFirstFilterValues as $key => $value)
+		{
+			$this->assertEquals($value, $filterSet->getFilterValue($key));
+			$this->assertEquals($value, $filterSet->getFilter($key)->getValue());
 		}
 	}
 
@@ -226,6 +271,28 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($expectedFilter['boolean'] === 'and', $filter->isAnd());
 		$this->assertEquals($expectedFilter['boolean'] === 'or', $filter->isOr());
+	}
+
+	/**
+	 * Builds a key=>value array of the top-level filters in the given set of expected filters (choosing only the first instance of each field name)
+	 *
+	 * @param  array   $expectedFilters
+	 *
+	 * @return array
+	 */
+	protected function getExpectedFirstFilterValues(array $expectedFilters)
+	{
+		$fieldValues = [];
+
+		foreach ($expectedFilters as $expectedFilter)
+		{
+			if (!isset($expectedFilter['filters']) && !isset($fieldValues[$expectedFilter['field']]))
+			{
+				$fieldValues[$expectedFilter['field']] = $expectedFilter['value'];
+			}
+		}
+
+		return $fieldValues;
 	}
 
 	/**

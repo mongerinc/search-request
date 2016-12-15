@@ -123,49 +123,7 @@ $request->where('goodTimes', true)
 
 When reading a complex set of conditionals back from the `SearchRequest`, there are several important concepts to understand:
 
-1. Each nesting layer (including the top layer) is represented by a `FilterSet`. A `FilterSet` has a boolean (and/or) and can be comprised of any combination of `Filter` and `FilterSet` objects.
-2. A `Filter` object represents a basic field/value/operator conditional with a boolean (and/or).
+1. Each nesting layer (including the top layer) is represented by a `FilterSet`. A `FilterSet` has a boolean (and/or) and can be comprised of any combination of `Filter` and `FilterSet` objects. These objects are provided in the order they were entered.
+2. A `Filter` object represents a field, value, and conditional operator along with a boolean (and/or).
 
-Since the nesting of conditionals is theoretically infinite, you may want to implement a recursive function to apply the request to the library of your choice (like a database query builder). An example of this in action:
-
-```php
-protected function makeDatabaseCall($request)
-{
-	$query = $this->newQuery();
-	$filterSet = $request->getFilters(); //the top-level FilterSet object for the request
-
-	$this->applyFilters($query, $filterSet);
-
-	return $query->get();
-}
-
-protected function applyFilters($query, FilterSet $filterSet)
-{
-	foreach ($filterSet as $filter)
-	{
-		//if this is a basic filter, simply apply it
-		if ($filter instanceof Filter)
-		{
-			$this->applyFilter($query, $filter);
-		}
-		//if this is a sub-FilterSet, we want to wrap the condition with the correct boolean function and call this function recursively
-		else if ($filter instanceof FilterSet)
-		{
-			$subFilterSet = $filter;
-			$conditionalFunction = $subFilterSet->isAnd() ? 'where' : 'orWhere';
-
-			$query->{$conditionalFunction}(function($query) use ($subFilterSet)
-			{
-				$this->applyFilters($query, $subFilterSet);
-			});
-		}
-	}
-}
-
-protected function applyFilter($query, Filter $filter)
-{
-	$conditionalFunction = $filter->isAnd() ? 'where' : 'orWhere';
-
-	$query->{$conditionalFunction}($filter->getField(), $filter->getOperator(), $filter->getValue());
-}
-```
+Since the nesting of conditionals is theoretically infinite, you may want to implement a recursive function to apply the request to the library of your choice (like a database query builder). An example of this can be seen in the `/examples` directory.

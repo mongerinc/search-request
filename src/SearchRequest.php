@@ -257,7 +257,7 @@ class SearchRequest {
 	 */
 	public function __call($method, $parameters)
 	{
-		if (strpos(strtolower($method), 'where') !== false)
+		if ($this->isFilterSetPassthrough($method))
 		{
 			return call_user_func_array([$this->filterSet, $method], $parameters);
 		}
@@ -265,6 +265,21 @@ class SearchRequest {
 		$className = __CLASS__;
 
 		throw new BadMethodCallException("Call to undefined method {$className}::{$method}()");
+	}
+
+	/**
+	 * Determines if the provided method should be passed through to the filter set
+	 *
+	 * @param  string    $method
+	 *
+	 * @return bool
+	 */
+	protected function isFilterSetPassthrough($method)
+	{
+		$isWhere = strpos(strtolower($method), 'where') !== false;
+		$isFilterFetcher = strpos($method, 'getFilter') !== false;
+
+		return $isWhere || $isFilterFetcher;
 	}
 
 }

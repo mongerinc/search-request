@@ -344,6 +344,37 @@ class FilterSet implements ArrayAccess, Countable, IteratorAggregate {
 	}
 
 	/**
+	 * Gets a top-level filter by its field name (only retrieves the first match)
+	 *
+	 * @param  string    $key
+	 *
+	 * @return mixed     //null | Filter
+	 */
+	public function getFilter($key)
+	{
+		foreach ($this->filters as $filter)
+		{
+			if (($filter instanceof Filter) && ($filter->getField() === $key))
+			{
+				return $filter;
+			}
+		}
+	}
+
+	/**
+	 * Gets a top-level filter's value by its field name (only retrieves the first match)
+	 *
+	 * @param  string    $key
+	 *
+	 * @return mixed
+	 */
+	public function getFilterValue($key)
+	{
+		if ($filter = $this->getFilter($key))
+			return $filter->getValue();
+	}
+
+	/**
 	 * Count the number of conditions in this filter set
 	 *
 	 * @return int

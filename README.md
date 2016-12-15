@@ -2,7 +2,7 @@
 
 This library provides a set of classes that help represent requests for complex data and provides a way to convert requests to and from a standard JSON format. If you have interfaces with tons of parameters ($filters, $groupings, $page, $rowsPerPage, etc.), or if you're just looking for a standard way to communicate complex requests to other apps without racking your brain over how to represent this data in JSON, you will like this library.
 
-- **Version:** 1.0.0
+- **Version:** 1.1.0
 
 [![Build Status](https://travis-ci.org/mongerinc/search-request.png?branch=master)](https://travis-ci.org/mongerinc/search-request)
 
@@ -106,6 +106,16 @@ foreach ($request->getFilters() as $filter)
 {
 	$databaseQuery->where($filter->getField(), $filter->getOperator(), $filter->getValue());
 }
+```
+
+You can also call `getFilter($field)` or `getFilterValue($field)` on the `SearchRequest` or `FilterSet` to get the `Filter`/value respectively of the first filter that matches that field name. This is useful if your filters are relatively simple and you only expect one value for each field name.
+
+```php
+$request->where('foo', true);
+$request->where('foo', '>', 5);
+
+$request->getFilterValue('foo'); //true
+$request->getFilters()->getFilterValue('foo'); //true
 ```
 
 More complex filtering can be accomplished by using nested conditions. Assuming you wanted to make a request representing the following pseudo-SQL conditional statement:

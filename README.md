@@ -2,6 +2,8 @@
 
 This library provides a set of classes that help represent requests for complex data and provides a way to convert requests to and from a standard JSON format. If you have interfaces with tons of parameters ($filters, $groupings, $page, $rowsPerPage, etc.), or if you're just looking for a standard way to communicate complex requests to other apps without racking your brain over how to represent this data in JSON, you will like this library.
 
+[![Build Status](https://travis-ci.org/mongerinc/search-request.png?branch=master)](https://travis-ci.org/mongerinc/search-request)
+
 Table of contents
 -----------------
 * [Installation](#installation)

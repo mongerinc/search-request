@@ -1,5 +1,8 @@
 ## Changelog
 
+### 1.x.x
+- Added contributing guidelines.
+
 ### 1.1.1
 - Fixing the name of the example sorting method.
 

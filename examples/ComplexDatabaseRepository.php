@@ -75,7 +75,7 @@ class ComplexDatabaseRepository implements RepositoryInterface {
 	 * @param  \SomeFramework\SomeQueryBuilder    $query
 	 * @param  array                              $sorts
 	 */
-	protected function applyFilter($query, array $sorts)
+	protected function applySorts($query, array $sorts)
 	{
 		foreach ($sorts as $sort)
 		{

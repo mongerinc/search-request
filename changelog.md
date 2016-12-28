@@ -1,6 +1,6 @@
 ## Changelog
 
-### 1.x.x
+### 1.2.0
 - Added a `getSkip()` method to the search request to help people avoid making that calcuation.
 - Added contributing guidelines.
 

@@ -90,6 +90,8 @@ $page = $request->getPage();
 $databaseQuery->take($limit)->skip(($page - 1) * $limit);
 ```
 
+Alternatively, you can call `getSkip()` to avoid doing the calculation above.
+
 #### Filtering
 
 Filtering a `SearchRequest` can be done using the `where()` method. An operator can be provided as the second argument where the possible types are `=`, `>`, `>=`, `<`, `<=`, `!=`, `in`, `not in`, `like`, `not like`, `exists`, `not exists`, `between`, and `not between`. If no operator is provided, it is assumed to be `=`.

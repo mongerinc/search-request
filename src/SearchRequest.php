@@ -199,6 +199,16 @@ class SearchRequest {
 	}
 
 	/**
+	 * Gets the current number of rows to skip
+	 *
+	 * @return int
+	 */
+	public function getSkip()
+	{
+		return ($this->page - 1) * $this->limit;
+	}
+
+	/**
 	 * Gets the top-level filter set
 	 *
 	 * @return FilterSet

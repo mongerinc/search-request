@@ -26,9 +26,11 @@ class PaginationTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(5, $request->getPage());
 		$this->assertEquals(50, $request->getLimit());
+		$this->assertEquals(200, $request->getSkip());
 
 		$request->nextPage();
 		$this->assertEquals(6, $request->getPage());
+		$this->assertEquals(250, $request->getSkip());
 	}
 
 	/**
@@ -42,6 +44,7 @@ class PaginationTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(5, $request->getPage());
 		$this->assertEquals(50, $request->getLimit());
+		$this->assertEquals(200, $request->getSkip());
 	}
 
 }

@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.2.0
+- Added a `getSkip()` method to the search request to help people avoid making that calcuation.
+- Added contributing guidelines.
+
 ### 1.1.1
 - Fixing the name of the example sorting method.
 

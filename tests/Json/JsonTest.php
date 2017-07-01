@@ -58,7 +58,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 				['field' => 'something', 'direction' => 'asc'],
 				['field' => 'otherThing', 'direction' => 'desc'],
 			],
-			'filters' => [
+			'filterSet' => [
 				'boolean' => 'and',
 				'filters' => [
 					['field' => 'fun', 'operator' => '=', 'value' => 'more', 'boolean' => 'and'],

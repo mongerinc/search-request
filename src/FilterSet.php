@@ -55,7 +55,7 @@ class FilterSet implements ArrayAccess, Countable, IteratorAggregate {
 			list($value, $operator) = [$operator, '='];
 		}
 
-		//if the provided boolean boolean is invalid, raise an exception
+		//if the provided boolean is invalid, raise an exception
 		if (!in_array($boolean, ['and', 'or']))
 		{
 			throw new InvalidArgumentException("A filter's boolean needs to be either 'and' or 'or'.");
@@ -223,7 +223,7 @@ class FilterSet implements ArrayAccess, Countable, IteratorAggregate {
 	}
 
 	/**
-	 * Add a in filter
+	 * Add an in filter
 	 *
 	 * @param  string    $field
 	 * @param  array     $values

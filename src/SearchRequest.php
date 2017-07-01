@@ -45,7 +45,7 @@ class SearchRequest {
 			$this->page = $inputs['page'];
 			$this->limit = $inputs['limit'];
 			$this->addSortsFromArray($inputs['sorts']);
-			$this->addFilterSetFromArray($inputs['filters']);
+			$this->addFilterSetFromArray($inputs['filterSet']);
 		}
 		else
 		{
@@ -229,7 +229,7 @@ class SearchRequest {
 			'page' => $this->page,
 			'limit' => $this->limit,
 			'sorts' => array_map(function(Sort $sort) {return $sort->toArray();}, $this->sorts),
-			'filters' => $this->filterSet->toArray(),
+			'filterSet' => $this->filterSet->toArray(),
 		];
 	}
 

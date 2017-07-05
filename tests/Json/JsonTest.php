@@ -35,6 +35,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 		$request = new SearchRequest;
 
 		$request->page(5)->limit(50)
+		        ->term('search this')
 		        ->addSort('something', 'asc')->addSort('otherThing', 'desc')
 		        ->where('fun', 'more')->orWhere(function($filterSet)
 		        {
@@ -52,6 +53,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 	protected function getExpectedJson()
 	{
 		return json_encode([
+			'term' => 'search this',
 			'page' => 5,
 			'limit' => 50,
 			'sorts' => [

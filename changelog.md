@@ -1,5 +1,12 @@
 ## Changelog
 
+### 2.1.0
+- Added term property for global text searches
+
+### 2.0.0
+- Changing JSON/arrayable top-level filters to filterSet for more clarity
+- Some minor comment cleanup
+
 ### 1.2.0
 - Added a `getSkip()` method to the search request to help people avoid making that calcuation.
 - Added contributing guidelines.

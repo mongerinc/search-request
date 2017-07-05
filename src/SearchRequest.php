@@ -13,6 +13,13 @@ class SearchRequest {
 	protected $sorts = [];
 
 	/**
+	 * The global search term
+	 *
+	 * @var string
+	 */
+	protected $term;
+
+	/**
 	 * The requested page
 	 *
 	 * @var int
@@ -42,6 +49,7 @@ class SearchRequest {
 		{
 			$inputs = json_decode($json, true);
 
+			$this->term = $inputs['term'];
 			$this->page = $inputs['page'];
 			$this->limit = $inputs['limit'];
 			$this->addSortsFromArray($inputs['sorts']);
@@ -76,6 +84,33 @@ class SearchRequest {
 		$this->filterSet = new FilterSet($filterSet['boolean']);
 
 		$this->filterSet->addFiltersFromArray($filterSet['filters']);
+	}
+
+	/**
+	 * Adds the provided global search term
+	 *
+	 * @param  string    $term
+	 *
+	 * @return $this
+	 */
+	public function term($term)
+	{
+		if (!is_string($term) && !is_null($term))
+			throw new InvalidArgumentException("A search term can only be a string or null.");
+
+		$this->term = $term;
+
+		return $this;
+	}
+
+	/**
+	 * Gets the current global search term
+	 *
+	 * @return mixed
+	 */
+	public function getTerm()
+	{
+		return $this->term;
 	}
 
 	/**
@@ -226,6 +261,7 @@ class SearchRequest {
 	public function toArray()
 	{
 		return [
+			'term' => $this->term,
 			'page' => $this->page,
 			'limit' => $this->limit,
 			'sorts' => array_map(function(Sort $sort) {return $sort->toArray();}, $this->sorts),

@@ -115,13 +115,4 @@ class InvalidationTest extends \PHPUnit_Framework_TestCase {
 		]);
 	}
 
-	/**
-	 * @test
-	 * @expectedException TypeError
-	 */
-	public function multipleNotArray()
-	{
-		$this->request->substituteFields(null);
-	}
-
 }

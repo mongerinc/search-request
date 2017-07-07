@@ -1,5 +1,8 @@
 ## Changelog
 
+### 3.0.2
+- Ensuring all FilterSet pass-through methods return the search request where appropriate
+
 ### 3.0.1
 - Version bumping readme
 

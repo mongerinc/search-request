@@ -340,7 +340,9 @@ class SearchRequest {
 	{
 		if ($this->isFilterSetPassthrough($method))
 		{
-			return call_user_func_array([$this->filterSet, $method], $parameters);
+			$result = call_user_func_array([$this->filterSet, $method], $parameters);
+
+			return $result instanceof FilterSet ? $this : $result;
 		}
 
 		$className = __CLASS__;

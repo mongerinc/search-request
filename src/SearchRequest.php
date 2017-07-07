@@ -62,6 +62,18 @@ class SearchRequest {
 	}
 
 	/**
+	 * Create a new search request instance
+	 *
+	 * @param  mixed    $json
+	 *
+	 * @return SearchRequest
+	 */
+	public static function create($json = null)
+	{
+		return new SearchRequest($json);
+	}
+
+	/**
 	 * Adds the sorts from the provided input array
 	 *
 	 * @param  array    $sorts
@@ -340,7 +352,9 @@ class SearchRequest {
 	{
 		if ($this->isFilterSetPassthrough($method))
 		{
-			return call_user_func_array([$this->filterSet, $method], $parameters);
+			$result = call_user_func_array([$this->filterSet, $method], $parameters);
+
+			return $result instanceof FilterSet ? $this : $result;
 		}
 
 		$className = __CLASS__;

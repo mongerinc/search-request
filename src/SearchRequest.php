@@ -62,6 +62,18 @@ class SearchRequest {
 	}
 
 	/**
+	 * Create a new search request instance
+	 *
+	 * @param  mixed    $json
+	 *
+	 * @return SearchRequest
+	 */
+	public static function create($json = null)
+	{
+		return new SearchRequest($json);
+	}
+
+	/**
 	 * Adds the sorts from the provided input array
 	 *
 	 * @param  array    $sorts

@@ -1,6 +1,7 @@
 ## Changelog
 
-### 3.0.2
+### 3.1.0
+- Adding a static create() method for more fluent request building
 - Ensuring all FilterSet pass-through methods return the search request where appropriate
 
 ### 3.0.1

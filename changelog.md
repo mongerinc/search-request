@@ -1,5 +1,8 @@
 ## Changelog
 
+### 3.0.1
+- Version bumping readme
+
 ### 3.0.0
 - Add mechanism for changing all declared field names in the request to other values
 - Changed `getFilters()` to `getFilterSet()` for more clarity

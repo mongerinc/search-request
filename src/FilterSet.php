@@ -375,6 +375,27 @@ class FilterSet implements ArrayAccess, Countable, IteratorAggregate {
 	}
 
 	/**
+	 * Substitutes all field names in the filter set that match the provided substitution
+	 *
+	 * @param  string    $original
+	 * @param  string    $substitution
+	 */
+	public function substituteField($original, $substitution)
+	{
+		foreach ($this->filters as $filter)
+		{
+			if (($filter instanceof Filter) && ($filter->getField() === $original))
+			{
+				$filter->setField($substitution);
+			}
+			else if ($filter instanceof FilterSet)
+			{
+				$filter->substituteField($original, $substitution);
+			}
+		}
+	}
+
+	/**
 	 * Count the number of conditions in this filter set
 	 *
 	 * @return int

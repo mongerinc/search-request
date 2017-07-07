@@ -87,6 +87,20 @@ class Filter {
 	}
 
 	/**
+	 * Sets the field
+	 *
+	 * @param  string    $field
+	 *
+	 * @return $this
+	 */
+	public function setField($field)
+	{
+		$this->field = $field;
+
+		return $this;
+	}
+
+	/**
 	 * Converts the filter to a representative array
 	 *
 	 * @return array

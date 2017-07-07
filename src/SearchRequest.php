@@ -254,6 +254,41 @@ class SearchRequest {
 	}
 
 	/**
+	 * Substitutes all field names in the request that match the provided set of substitutions
+	 *
+	 * @param  array    $substitutions
+	 */
+	public function substituteFields(array $substitutions)
+	{
+		foreach ($substitutions as $original => $substitution)
+		{
+			$this->substituteField($original, $substitution);
+		}
+	}
+
+	/**
+	 * Substitutes all field names in the request that match the provided substitution
+	 *
+	 * @param  string    $original
+	 * @param  string    $substitution
+	 */
+	public function substituteField($original, $substitution)
+	{
+		if (!is_string($original) || !is_string($substitution))
+			throw new InvalidArgumentException("Field subtitutions must consist of an original string and a substitution string.");
+
+		foreach ($this->sorts as $sort)
+		{
+			if ($sort->getField() === $original)
+			{
+				$sort->setField($substitution);
+			}
+		}
+
+		$this->filterSet->substituteField($original, $substitution);
+	}
+
+	/**
 	 * Converts the search request into a representative array
 	 *
 	 * @return array

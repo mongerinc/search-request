@@ -47,6 +47,20 @@ class Sort {
 	}
 
 	/**
+	 * Sets the field
+	 *
+	 * @param  string    $field
+	 *
+	 * @return $this
+	 */
+	public function setField($field)
+	{
+		$this->field = $field;
+
+		return $this;
+	}
+
+	/**
 	 * Changes the direction from 'asc' to 'desc' or vice versa
 	 */
 	public function changeDirection()

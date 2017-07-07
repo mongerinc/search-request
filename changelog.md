@@ -1,7 +1,8 @@
 ## Changelog
 
-### 2.2.0
-- Changed `getFilters()` to `getFilterSet()` for more clarity.
+### 3.0.0
+- Add mechanism for changing all declared field names in the request to other values
+- Changed `getFilters()` to `getFilterSet()` for more clarity
 
 ### 2.1.0
 - Added term property for global text searches

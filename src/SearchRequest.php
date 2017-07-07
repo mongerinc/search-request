@@ -248,7 +248,7 @@ class SearchRequest {
 	 *
 	 * @return FilterSet
 	 */
-	public function getFilters()
+	public function getFilterSet()
 	{
 		return $this->filterSet;
 	}

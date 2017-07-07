@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2.2.0
+- Changed `getFilters()` to `getFilterSet()` for more clarity.
+
 ### 2.1.0
 - Added term property for global text searches
 

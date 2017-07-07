@@ -13,10 +13,10 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
 	{
 		$request = new SearchRequest;
 
-		$this->assertEquals(0, count($request->getFilters()));
-		$this->assertEquals('and', $request->getFilters()->getBoolean());
-		$this->assertTrue($request->getFilters()->isAnd());
-		$this->assertFalse($request->getFilters()->isOr());
+		$this->assertEquals(0, count($request->getFilterSet()));
+		$this->assertEquals('and', $request->getFilterSet()->getBoolean());
+		$this->assertTrue($request->getFilterSet()->isAnd());
+		$this->assertFalse($request->getFilterSet()->isOr());
 	}
 
 	/**
@@ -200,7 +200,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function checkRequest(SearchRequest $request, array $expectedFilterSet)
 	{
-		$this->checkFilterSet($request->getFilters(), $expectedFilterSet);
+		$this->checkFilterSet($request->getFilterSet(), $expectedFilterSet);
 
 		//verify that the first-set top-level filter values match what can be pulled off the request itself
 		$expectedFirstFilterValues = $this->getExpectedFirstFilterValues($expectedFilterSet['filters']);

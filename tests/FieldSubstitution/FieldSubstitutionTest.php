@@ -1,5 +1,6 @@
 <?php namespace Monger\SearchRequest\Tests;
 
+use Monger\SearchRequest\Facet;
 use Monger\SearchRequest\SearchRequest;
 
 class FieldSubstitutionTest extends \PHPUnit_Framework_TestCase {
@@ -31,6 +32,24 @@ class FieldSubstitutionTest extends \PHPUnit_Framework_TestCase {
 			['field' => 'subSecond', 'direction' => 'desc'],
 			['field' => 'subThird', 'direction' => 'asc'],
 		], $request->toArray()['sorts']);
+	}
+
+	/**
+	 * @test
+	 */
+	public function facets()
+	{
+		$request = new SearchRequest;
+
+		$request->facetMany(['first', 'second']);
+
+		$request->substituteFields([
+			'first' => 'subFirst',
+		]);
+
+		$this->assertNull($request->getFacet('first'));
+		$this->assertTrue($request->getFacet('subFirst') instanceof Facet);
+		$this->assertTrue($request->getFacet('second') instanceof Facet);
 	}
 
 	/**

@@ -2,7 +2,7 @@
 
 This library provides a set of classes that help represent requests for complex data and provides a way to convert requests to and from a standard JSON format. If you have interfaces with tons of parameters ($filters, $groupings, $page, $rowsPerPage, etc.), or if you're just looking for a standard way to communicate complex requests to other apps without racking your brain over how to represent this data in JSON, you will like this library.
 
-- **Version:** 3.1.0
+- **Version:** 3.2.0
 
 [![Build Status](https://travis-ci.org/mongerinc/search-request.png?branch=master)](https://travis-ci.org/mongerinc/search-request)
 
@@ -14,6 +14,7 @@ Table of contents
   * [Sorting](#sorting)
   * [Pagination](#pagination)
   * [Filtering](#filtering)
+  * [Faceting](#faceting)
 
 ### Installation
 
@@ -143,3 +144,57 @@ When reading a complex set of conditionals back from the `SearchRequest`, there 
 2. A `Filter` object represents a field, value, and conditional operator along with a boolean (and/or).
 
 Since the nesting of conditionals is theoretically infinite, you may want to implement a recursive function to apply the request to the library of your choice (like a database query builder). An example of this can be seen in the `/examples` directory.
+
+#### Faceting
+
+Faceting (i.e. getting attribute values and their counts) a `SearchRequest` can be done like this:
+
+```php
+$facet = $request->facet('someField');
+```
+
+This will create a facet for `someField` and, unlike other methods, returns a `Facet` instance instead of the `SearchRequest`. You can also create multiple facets at once:
+
+```php
+$request->addFacets(['someField', 'someOtherField']);
+```
+
+And you can get facets either one at a time by field name (will only return the first match):
+
+```php
+$request->getFacet('someField');
+```
+
+Or all at once:
+
+```php
+$request->getFacets();
+```
+
+Sorting a facet's results can be done either by count or value (the default) and a direction.
+
+```php
+$facet->isCountSorting(); //bool
+$facet->isValueSorting(); //bool
+$facet->getSortDirection(); //'asc' or 'desc'
+
+$facet->sortByCount('asc');
+$facet->sortByValue('desc');
+```
+
+The minimum number of values a facet field must have in order to be returned in the result set is 1.
+
+```php
+$facet->getMinimumCount(); //1
+
+$facet->minimumCount(5);
+```
+
+Filters that exist for the facet's field are by default excluded from consideration when building the facet results.
+
+```php
+$facet->shouldExcludeOwnFilters(); //true
+
+$facet->excludeOwnFilters();
+$facet->includeOwnFilters();
+```

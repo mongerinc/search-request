@@ -13,6 +13,13 @@ class SearchRequest {
 	protected $sorts = [];
 
 	/**
+	 * Holds the current Facets
+	 *
+	 * @var array
+	 */
+	protected $facets = [];
+
+	/**
 	 * The global search term
 	 *
 	 * @var string
@@ -83,6 +90,19 @@ class SearchRequest {
 		foreach ($sorts as $sort)
 		{
 			$this->addSort($sort['field'], $sort['direction']);
+		}
+	}
+
+	/**
+	 * Adds the facets from the provided input array
+	 *
+	 * @param  array    $facets
+	 */
+	public function addFacetsFromArray(array $facets)
+	{
+		foreach ($facets as $facet)
+		{
+			$this->addFacet($facet['field'], $facet['']);
 		}
 	}
 
@@ -163,6 +183,46 @@ class SearchRequest {
 	public function getSort()
 	{
 		return isset($this->sorts[0]) ? $this->sorts[0] : null;
+	}
+
+	/**
+	 * Gets all sorts
+	 *
+	 * @return array
+	 */
+	public function getSorts()
+	{
+		return $this->sorts;
+	}
+
+
+	/**
+	 * Add a facet
+	 *
+	 * @param  string    $field
+	 *
+	 * @return Facet
+	 */
+	public function facet(string $field)
+	{
+		$this->facets[] = $facet = new Facet($field);
+
+		return $facet;
+	}
+
+	/**
+	 * Gets the facet for the provided field
+	 *
+	 * @param  string    $field
+	 *
+	 * @return mixed    //null | Sort
+	 */
+	public function getSort($field)
+	{
+		foreach ($this->facets as $facet)
+		{
+			if ($facet->getField($))
+		}
 	}
 
 	/**
@@ -294,6 +354,14 @@ class SearchRequest {
 			if ($sort->getField() === $original)
 			{
 				$sort->setField($substitution);
+			}
+		}
+
+		foreach ($this->facets as $facet)
+		{
+			if ($facet->getField() === $original)
+			{
+				$facet->setField($substitution);
 			}
 		}
 

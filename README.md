@@ -2,7 +2,7 @@
 
 This library provides a set of classes that help represent requests for complex data and provides a way to convert requests to and from a standard JSON format. If you have interfaces with tons of parameters ($filters, $groupings, $page, $rowsPerPage, etc.), or if you're just looking for a standard way to communicate complex requests to other apps without racking your brain over how to represent this data in JSON, you will like this library.
 
-- **Version:** 3.1.0
+- **Version:** 3.2.0
 
 [![Build Status](https://travis-ci.org/mongerinc/search-request.png?branch=master)](https://travis-ci.org/mongerinc/search-request)
 
@@ -14,6 +14,8 @@ Table of contents
   * [Sorting](#sorting)
   * [Pagination](#pagination)
   * [Filtering](#filtering)
+  * [Faceting](#faceting)
+  * [Field Substitution](#field-substitution)
 
 ### Installation
 
@@ -29,6 +31,10 @@ When creating a `SearchRequest` from scratch, you first need to instantiate a re
 
 ```php
 $request = new SearchRequest;
+
+//or
+
+$request = SearchRequest::create();
 ```
 
 As a starting point, each search request has no sorts, no filters, and no groupings. Pagination starts at page 1 and by default there is a limit of 10 rows per page.
@@ -143,3 +149,103 @@ When reading a complex set of conditionals back from the `SearchRequest`, there 
 2. A `Filter` object represents a field, value, and conditional operator along with a boolean (and/or).
 
 Since the nesting of conditionals is theoretically infinite, you may want to implement a recursive function to apply the request to the library of your choice (like a database query builder). An example of this can be seen in the `/examples` directory.
+
+#### Faceting
+
+Faceting (i.e. getting attribute values and their counts) a `SearchRequest` can be done like this:
+
+```php
+$facet = $request->facet('someField');
+```
+
+This will create a facet for `someField` and, unlike other methods, returns a `Facet` instance instead of the `SearchRequest`. You can also create multiple facets at once:
+
+```php
+$request->addFacets(['someField', 'someOtherField']);
+```
+
+And you can get facets either one at a time by field name (will only return the first match):
+
+```php
+$request->getFacet('someField');
+```
+
+Or all at once:
+
+```php
+$request->getFacets();
+```
+
+Sorting a facet's results can be done either by count or value (the default) and a direction.
+
+```php
+$facet->isCountSorting(); //bool
+$facet->isValueSorting(); //bool
+$facet->getSortDirection(); //'asc' or 'desc'
+
+$facet->sortByCount();
+$facet->sortByValue();
+$facet->setSortDirection('asc');
+```
+
+The minimum number of values a facet field must have in order to be returned in the result set is 1.
+
+```php
+$facet->getMinimumCount(); //1
+
+$facet->setMinimumCount(5);
+```
+
+Filters that exist for the facet's field are by default excluded from consideration when building the facet results.
+
+```php
+$facet->shouldExcludeOwnFilters(); //true
+
+$facet->excludeOwnFilters();
+$facet->includeOwnFilters();
+```
+
+A facet can also be paginated just like the search request and with the same default values:
+
+```php
+$facet->getPage();
+$facet->getLimit();
+$facet->getSkip();
+
+$facet->page(5)->limit(100);
+$facet->nextPage();
+```
+
+#### Field Substitution
+
+When making search requests, you often want to keep the specifics of a data storage schema hidden from the rest of your code base. For example, you may have a denormalized SQL field called `category_name` on your `products` table that on the way out gets formatted as:
+
+```php
+[
+	...
+	'category' => [
+		'id' => $product->category_id,
+		'name' => $product->category_name,
+	],
+	...
+]
+```
+
+So the rest of your system sees `category.name` as the field, but your SQL repository only understands `category_name`. This is where field substitution comes in handy:
+
+```php
+//abstract layer code
+$request->where('category.name', 'Foo');
+
+//then later in the repository
+$request->substituteField('category.name', 'category_name');
+```
+
+You can also substitute many fields at once by passing in an array of `original` => `substitution` values:
+
+```php
+$request->substituteFields(
+	['category.name' => 'category_name'],
+	['category.id' => 'category_id'],
+);
+```

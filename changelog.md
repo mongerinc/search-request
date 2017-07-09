@@ -1,5 +1,8 @@
 ## Changelog
 
+### 3.2.0
+- Added faceting
+
 ### 3.1.0
 - Adding a static create() method for more fluent request building
 - Ensuring all FilterSet pass-through methods return the search request where appropriate

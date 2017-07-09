@@ -22,7 +22,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 		$request = new SearchRequest($this->getExpectedJson());
 		$expectedRequest = $this->getExpectedRequest();
 
-		$this->assertEquals($request->toJson(), $expectedRequest->toJson());
+		$this->assertEquals($expectedRequest->toJson(), $request->toJson());
 	}
 
 	/**
@@ -40,7 +40,8 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 		        ->where('fun', 'more')->orWhere(function($filterSet)
 		        {
 		            $filterSet->where('hats', '>', 'large')->where('butts', 'small');
-		        });
+		        })
+		        ->facet('something')->page(2)->limit(100)->sortByCount()->setSortDirection('desc')->setMinimumCount(5)->includeOwnFilters();
 
 		return $request;
 	}
@@ -72,7 +73,18 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 						]
 					]
 				]
-			]
+			],
+			'facets' => [
+				[
+					'field' => 'something',
+					'sortType' => 'count',
+					'sortDirection' => 'desc',
+					'page' => 2,
+					'limit' => 100,
+					'minimumCount' => 5,
+					'excludesOwnFilters' => false,
+				]
+			],
 		]);
 	}
 

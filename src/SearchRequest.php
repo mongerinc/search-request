@@ -13,6 +13,13 @@ class SearchRequest {
 	protected $sorts = [];
 
 	/**
+	 * Holds the current Facets
+	 *
+	 * @var array
+	 */
+	protected $facets = [];
+
+	/**
 	 * The global search term
 	 *
 	 * @var string
@@ -53,6 +60,7 @@ class SearchRequest {
 			$this->page = $inputs['page'];
 			$this->limit = $inputs['limit'];
 			$this->addSortsFromArray($inputs['sorts']);
+			$this->addFacets($inputs['facets']);
 			$this->addFilterSetFromArray($inputs['filterSet']);
 		}
 		else
@@ -173,6 +181,80 @@ class SearchRequest {
 	public function getSorts()
 	{
 		return $this->sorts;
+	}
+
+	/**
+	 * Add a facet
+	 *
+	 * @param  string    $field
+	 *
+	 * @return Facet
+	 */
+	public function facet($field)
+	{
+		$this->facets[] = $facet = new Facet(['field' => $field]);
+
+		return $facet;
+	}
+
+	/**
+	 * Add a facet
+	 *
+	 * @param  string    $field
+	 *
+	 * @return $this
+	 */
+	public function facetMany(array $fields)
+	{
+		foreach ($fields as $field)
+		{
+			$this->facet($field);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Adds a group of facets
+	 *
+	 * @param  array    $facets
+	 *
+	 * @return $this
+	 */
+	public function addFacets(array $facets)
+	{
+		foreach ($facets as $facet)
+		{
+			$this->facets[] = new Facet($facet);
+		}
+	}
+
+	/**
+	 * Gets the facet for the provided field
+	 *
+	 * @param  string    $field
+	 *
+	 * @return mixed    //null | Facet
+	 */
+	public function getFacet($field)
+	{
+		foreach ($this->facets as $facet)
+		{
+			if ($facet->getField() === $field)
+			{
+				return $facet;
+			}
+		}
+	}
+
+	/**
+	 * Gets all facets
+	 *
+	 * @return array
+	 */
+	public function getFacets()
+	{
+		return $this->facets;
 	}
 
 	/**
@@ -297,6 +379,14 @@ class SearchRequest {
 			}
 		}
 
+		foreach ($this->facets as $facet)
+		{
+			if ($facet->getField() === $original)
+			{
+				$facet->setField($substitution);
+			}
+		}
+
 		$this->filterSet->substituteField($original, $substitution);
 	}
 
@@ -313,6 +403,7 @@ class SearchRequest {
 			'limit' => $this->limit,
 			'sorts' => array_map(function(Sort $sort) {return $sort->toArray();}, $this->sorts),
 			'filterSet' => $this->filterSet->toArray(),
+			'facets' => array_map(function(Facet $facet) {return $facet->toArray();}, $this->facets),
 		];
 	}
 

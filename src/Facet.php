@@ -90,6 +90,30 @@ class Facet {
 	/**
 	 * @return int
 	 */
+	public function getPage()
+	{
+		return $this->page;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getLimit()
+	{
+		return $this->limit;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getSkip()
+	{
+		return ($this->page - 1) * $this->limit;
+	}
+
+	/**
+	 * @return int
+	 */
 	public function getMinimumCount()
 	{
 		return $this->minimumCount;
@@ -166,30 +190,6 @@ class Facet {
 		$this->sortDirection = $direction;
 
 		return $this;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getPage()
-	{
-		return $this->page;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getLimit()
-	{
-		return $this->limit;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getSkip()
-	{
-		return ($this->page - 1) * $this->limit;
 	}
 
 	/**

@@ -41,7 +41,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 		        {
 		            $filterSet->where('hats', '>', 'large')->where('butts', 'small');
 		        })
-		        ->facet('something')->page(2)->limit(100);
+		        ->facet('something')->page(2)->limit(100)->sortByCount()->setSortDirection('desc')->setMinimumCount(5)->includeOwnFilters();
 
 		return $request;
 	}
@@ -77,12 +77,12 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 			'facets' => [
 				[
 					'field' => 'something',
-					'sortType' => 'value',
-					'sortDirection' => 'asc',
+					'sortType' => 'count',
+					'sortDirection' => 'desc',
 					'page' => 2,
 					'limit' => 100,
-					'minimumCount' => 1,
-					'excludesOwnFilters' => true,
+					'minimumCount' => 5,
+					'excludesOwnFilters' => false,
 				]
 			],
 		]);

@@ -52,7 +52,7 @@ class Facet {
 		$this->setPage($values['page']);
 		$this->setLimit($values['limit']);
 		$this->setMinimumCount($values['minimumCount']);
-		$this->setExcludesOwnFilters($values['minimumCount']);
+		$this->setExcludesOwnFilters($values['excludesOwnFilters']);
 	}
 
 	/**

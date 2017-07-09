@@ -234,7 +234,7 @@ class SearchRequest {
 	 *
 	 * @param  string    $field
 	 *
-	 * @return mixed    //null | Sort
+	 * @return mixed    //null | Facet
 	 */
 	public function getFacet($field)
 	{

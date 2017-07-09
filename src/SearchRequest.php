@@ -59,6 +59,7 @@ class SearchRequest {
 			$this->term = $inputs['term'];
 			$this->page = $inputs['page'];
 			$this->limit = $inputs['limit'];
+			$this->addFacetsFromArray($inputs['facets']);
 			$this->addSortsFromArray($inputs['sorts']);
 			$this->addFilterSetFromArray($inputs['filterSet']);
 		}
@@ -102,7 +103,7 @@ class SearchRequest {
 	{
 		foreach ($facets as $facet)
 		{
-			$this->addFacet($facet['field'], $facet['']);
+			$this->facets[] = new Facet($facet);
 		}
 	}
 
@@ -195,7 +196,6 @@ class SearchRequest {
 		return $this->sorts;
 	}
 
-
 	/**
 	 * Add a facet
 	 *
@@ -203,11 +203,28 @@ class SearchRequest {
 	 *
 	 * @return Facet
 	 */
-	public function facet(string $field)
+	public function facet($field)
 	{
-		$this->facets[] = $facet = new Facet($field);
+		$this->facets[] = $facet = new Facet(['field' => $field]);
 
 		return $facet;
+	}
+
+	/**
+	 * Adds a group of facets
+	 *
+	 * @param  array    $fields
+	 *
+	 * @return $this
+	 */
+	public function addFacets(array $fields)
+	{
+		foreach ($fields as $field)
+		{
+			$this->facet($field);
+		}
+
+		return $this;
 	}
 
 	/**
@@ -217,22 +234,25 @@ class SearchRequest {
 	 *
 	 * @return mixed    //null | Sort
 	 */
-	public function getSort($field)
+	public function getFacet($field)
 	{
 		foreach ($this->facets as $facet)
 		{
-			if ($facet->getField($))
+			if ($facet->getField() === $field)
+			{
+				return $facet;
+			}
 		}
 	}
 
 	/**
-	 * Gets all sorts
+	 * Gets all facets
 	 *
 	 * @return array
 	 */
-	public function getSorts()
+	public function getFacets()
 	{
-		return $this->sorts;
+		return $this->facets;
 	}
 
 	/**
@@ -381,6 +401,7 @@ class SearchRequest {
 			'limit' => $this->limit,
 			'sorts' => array_map(function(Sort $sort) {return $sort->toArray();}, $this->sorts),
 			'filterSet' => $this->filterSet->toArray(),
+			'facets' => array_map(function(Facet $facet) {return $facet->toArray();}, $this->facets),
 		];
 	}
 

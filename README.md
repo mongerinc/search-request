@@ -178,8 +178,9 @@ $facet->isCountSorting(); //bool
 $facet->isValueSorting(); //bool
 $facet->getSortDirection(); //'asc' or 'desc'
 
-$facet->sortByCount('asc');
-$facet->sortByValue('desc');
+$facet->sortByCount();
+$facet->sortByValue();
+$facet->setSortDirection('asc');
 ```
 
 The minimum number of values a facet field must have in order to be returned in the result set is 1.
@@ -187,7 +188,7 @@ The minimum number of values a facet field must have in order to be returned in 
 ```php
 $facet->getMinimumCount(); //1
 
-$facet->minimumCount(5);
+$facet->setMinimumCount(5);
 ```
 
 Filters that exist for the facet's field are by default excluded from consideration when building the facet results.
@@ -197,4 +198,15 @@ $facet->shouldExcludeOwnFilters(); //true
 
 $facet->excludeOwnFilters();
 $facet->includeOwnFilters();
+```
+
+A facet can also be paginated just like the search request and with the same default values:
+
+```php
+$facet->getPage();
+$facet->getLimit();
+$facet->getSkip();
+
+$facet->page(5)->limit(100);
+$facet->nextPage();
 ```

@@ -59,8 +59,8 @@ class SearchRequest {
 			$this->term = $inputs['term'];
 			$this->page = $inputs['page'];
 			$this->limit = $inputs['limit'];
-			$this->addFacetsFromArray($inputs['facets']);
 			$this->addSortsFromArray($inputs['sorts']);
+			$this->addFacets($inputs['facets']);
 			$this->addFilterSetFromArray($inputs['filterSet']);
 		}
 		else
@@ -91,19 +91,6 @@ class SearchRequest {
 		foreach ($sorts as $sort)
 		{
 			$this->addSort($sort['field'], $sort['direction']);
-		}
-	}
-
-	/**
-	 * Adds the facets from the provided input array
-	 *
-	 * @param  array    $facets
-	 */
-	public function addFacetsFromArray(array $facets)
-	{
-		foreach ($facets as $facet)
-		{
-			$this->facets[] = new Facet($facet);
 		}
 	}
 
@@ -211,13 +198,13 @@ class SearchRequest {
 	}
 
 	/**
-	 * Adds a group of facets
+	 * Add a facet
 	 *
-	 * @param  array    $fields
+	 * @param  string    $field
 	 *
 	 * @return $this
 	 */
-	public function addFacets(array $fields)
+	public function facetMany(array $fields)
 	{
 		foreach ($fields as $field)
 		{
@@ -225,6 +212,21 @@ class SearchRequest {
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Adds a group of facets
+	 *
+	 * @param  array    $facets
+	 *
+	 * @return $this
+	 */
+	public function addFacets(array $facets)
+	{
+		foreach ($facets as $facet)
+		{
+			$this->facets[] = new Facet($facet);
+		}
 	}
 
 	/**

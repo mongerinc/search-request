@@ -50,7 +50,7 @@ class CreationTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function multiple()
 	{
-		$this->request->addFacets(['something', null]);
+		$this->request->facetMany(['something', null]);
 	}
 
 }

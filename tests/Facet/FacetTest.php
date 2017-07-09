@@ -93,7 +93,7 @@ class FacetTest extends \PHPUnit_Framework_TestCase {
 	{
 		$fields = ['someField', 'someOtherField'];
 		$request = new SearchRequest;
-		$request->addFacets($fields);
+		$request->facetMany($fields);
 
 		$this->assertEquals(2, count($request->getFacets()));
 
@@ -117,7 +117,7 @@ class FacetTest extends \PHPUnit_Framework_TestCase {
 	public function getFacetByName()
 	{
 		$request = new SearchRequest;
-		$request->addFacets(['someField', 'someOtherField']);
+		$request->facetMany(['someField', 'someOtherField']);
 		$facet = $request->getFacet('someOtherField');
 
 		$this->assertEquals([

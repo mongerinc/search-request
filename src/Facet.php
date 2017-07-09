@@ -138,7 +138,7 @@ class Facet {
 	{
 		if (!is_string($field))
 		{
-			throw new InvalidArgumentException("The facet field must be a string");
+			throw new InvalidArgumentException("The facet field must be a string.");
 		}
 
 		$this->field = $field;
@@ -170,7 +170,7 @@ class Facet {
 	public function setSortType($type)
 	{
 		if (!in_array($type, ['count', 'value']))
-			throw new InvalidArgumentException("The facet sort type should be either 'count' or 'value'");
+			throw new InvalidArgumentException("The facet sort type should be either 'count' or 'value'.");
 
 		$this->sortType = $type;
 
@@ -185,7 +185,7 @@ class Facet {
 	public function setSortDirection($direction)
 	{
 		if (!is_string($direction) || !in_array($direction, ['asc', 'desc']))
-			throw new InvalidArgumentException("The sort direction must be either 'asc' or 'desc'");
+			throw new InvalidArgumentException("The sort direction must be either 'asc' or 'desc'.");
 
 		$this->sortDirection = $direction;
 

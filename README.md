@@ -31,6 +31,10 @@ When creating a `SearchRequest` from scratch, you first need to instantiate a re
 
 ```php
 $request = new SearchRequest;
+
+//or
+
+$request = SearchRequest::create();
 ```
 
 As a starting point, each search request has no sorts, no filters, and no groupings. Pagination starts at page 1 and by default there is a limit of 10 rows per page.

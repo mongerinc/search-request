@@ -266,7 +266,7 @@ class Facet {
 		if (!$this->isIntegeric($minimumCount) || ($minimumCount < 0))
 			throw new InvalidArgumentException("The minimum count must be an integer.");
 
-		$this->minimumCount = $minimumCount;
+		$this->minimumCount = (int) $minimumCount;
 
 		return $this;
 	}

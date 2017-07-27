@@ -107,6 +107,21 @@ $request->where('someField', '>=', 5.45)
         ->where('isFun', true);            //assumed to be an equality
 ```
 
+Each of the word-like operators (`in`, `like`, `exists`, `between`) has a set of four companion helper methods. These follow this general format:
+
+```php
+$request->where{Word}($field, $value)
+        ->orWhere{Word}($field, $value)
+        ->whereNot{Word}($field, $value)
+        ->orWhereNot{Word}($field, $value);
+
+//example:
+$request->whereLike($field, $value)
+        ->orWhereLike($field, $value)
+        ->whereNotLike($field, $value)
+        ->orWhereNotLike($field, $value);
+```
+
 Reading filters from the search request can be done using the `getFilters()` method:
 
 ```php

@@ -1,5 +1,6 @@
 ## Changelog
 
+- Updated readme to include word operator companion methods.
 - Added helper methods for `like` and `not like` filters.
 
 ### 3.2.0

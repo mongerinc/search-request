@@ -280,6 +280,63 @@ class FilterSet implements ArrayAccess, Countable, IteratorAggregate {
 	}
 
 	/**
+	 * Add a like filter
+	 *
+	 * @param  string    $field
+	 * @param  string    $value
+	 * @param  string    $boolean
+	 * @param  bool      $not
+	 *
+	 * @return $this
+	 */
+	public function whereLike($field, $value, $boolean = 'and', $not = false)
+	{
+		$operator = $not ? 'not like' : 'like';
+
+		return $this->where($field, $operator, $value, $boolean);
+	}
+
+	/**
+	 * Add an or like filter
+	 *
+	 * @param  string    $field
+	 * @param  string    $value
+	 *
+	 * @return $this
+	 */
+	public function orWhereLike($field, $value)
+	{
+		return $this->whereLike($field, $value, 'or');
+	}
+
+	/**
+	 * Add a not like filter
+	 *
+	 * @param  string    $field
+	 * @param  string    $value
+	 * @param  string    $boolean
+	 *
+	 * @return $this
+	 */
+	public function whereNotLike($field, $value, $boolean = 'and')
+	{
+		return $this->whereLike($field, $value, $boolean, true);
+	}
+
+	/**
+	 * Add an or not like filter
+	 *
+	 * @param  string    $field
+	 * @param  string    $value
+	 *
+	 * @return $this
+	 */
+	public function orWhereNotLike($field, $value)
+	{
+		return $this->whereNotLike($field, $value, 'or');
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getBoolean()

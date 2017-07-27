@@ -193,6 +193,26 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @test
+	 */
+	public function allLikes()
+	{
+		$request = new SearchRequest;
+
+		$request->whereLike('first', 'foo')
+		        ->whereNotLike('second', '%moo')
+		        ->orWhereLike('third', 'goo%')
+		        ->orWhereNotLike('fourth', '%spookyboo%');
+
+		$this->checkRequest($request, $this->buildExpectedFilterSet([
+			['field' => 'first', 'operator' => 'like', 'value' => 'foo', 'boolean' => 'and'],
+			['field' => 'second', 'operator' => 'not like', 'value' => '%moo', 'boolean' => 'and'],
+			['field' => 'third', 'operator' => 'like', 'value' => 'goo%', 'boolean' => 'or'],
+			['field' => 'fourth', 'operator' => 'not like', 'value' => '%spookyboo%', 'boolean' => 'or'],
+		]));
+	}
+
+	/**
 	 * Checks the filter set for the provided request against the given expected filter set
 	 *
 	 * @param  \Monger\SearchRequest\SearchRequest   $request

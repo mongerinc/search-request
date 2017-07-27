@@ -1,5 +1,7 @@
 ## Changelog
 
+- Added helper methods for `like` and `not like` filters.
+
 ### 3.2.0
 - Added faceting
 

@@ -54,7 +54,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
 	public function operators()
 	{
 		$request = new SearchRequest;
-		$operators = ['=', '>', '>=', '<', '<=', '!=', 'in', 'not in', 'like', 'not like', 'exists', 'not exists', 'between', 'not between'];
+		$operators = ['=', '>', '>=', '<', '<=', '!=', 'in', 'not in', 'like', 'not like', 'exists', 'not exists', 'between', 'not between', 'regex', 'not regex'];
 		$expectedFilters = [];
 		$field = 'a';
 
@@ -189,6 +189,46 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
 			['field' => 'second', 'operator' => 'not exists', 'value' => null, 'boolean' => 'and'],
 			['field' => 'third', 'operator' => 'exists', 'value' => null, 'boolean' => 'or'],
 			['field' => 'fourth', 'operator' => 'not exists', 'value' => null, 'boolean' => 'or'],
+		]));
+	}
+
+	/**
+	 * @test
+	 */
+	public function allLikes()
+	{
+		$request = new SearchRequest;
+
+		$request->whereLike('first', 'foo')
+		        ->whereNotLike('second', '%moo')
+		        ->orWhereLike('third', 'goo%')
+		        ->orWhereNotLike('fourth', '%spookyboo%');
+
+		$this->checkRequest($request, $this->buildExpectedFilterSet([
+			['field' => 'first', 'operator' => 'like', 'value' => 'foo', 'boolean' => 'and'],
+			['field' => 'second', 'operator' => 'not like', 'value' => '%moo', 'boolean' => 'and'],
+			['field' => 'third', 'operator' => 'like', 'value' => 'goo%', 'boolean' => 'or'],
+			['field' => 'fourth', 'operator' => 'not like', 'value' => '%spookyboo%', 'boolean' => 'or'],
+		]));
+	}
+
+	/**
+	 * @test
+	 */
+	public function allRegex()
+	{
+		$request = new SearchRequest;
+
+		$request->whereRegex('first', 'foo')
+		        ->whereNotRegex('second', '.*')
+		        ->orWhereRegex('third', 'foo.{45}?')
+		        ->orWhereNotRegex('fourth', 'whatever');
+
+		$this->checkRequest($request, $this->buildExpectedFilterSet([
+			['field' => 'first', 'operator' => 'regex', 'value' => 'foo', 'boolean' => 'and'],
+			['field' => 'second', 'operator' => 'not regex', 'value' => '.*', 'boolean' => 'and'],
+			['field' => 'third', 'operator' => 'regex', 'value' => 'foo.{45}?', 'boolean' => 'or'],
+			['field' => 'fourth', 'operator' => 'not regex', 'value' => 'whatever', 'boolean' => 'or'],
 		]));
 	}
 

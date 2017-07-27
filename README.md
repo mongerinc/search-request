@@ -2,7 +2,7 @@
 
 This library provides a set of classes that help represent requests for complex data and provides a way to convert requests to and from a standard JSON format. If you have interfaces with tons of parameters ($filters, $groupings, $page, $rowsPerPage, etc.), or if you're just looking for a standard way to communicate complex requests to other apps without racking your brain over how to represent this data in JSON, you will like this library.
 
-- **Version:** 3.2.0
+- **Version:** 3.3.0
 
 [![Build Status](https://travis-ci.org/mongerinc/search-request.png?branch=master)](https://travis-ci.org/mongerinc/search-request)
 
@@ -100,11 +100,26 @@ Alternatively, you can call `getSkip()` to avoid doing the calculation above.
 
 #### Filtering
 
-Filtering a `SearchRequest` can be done using the `where()` method. An operator can be provided as the second argument where the possible types are `=`, `>`, `>=`, `<`, `<=`, `!=`, `in`, `not in`, `like`, `not like`, `exists`, `not exists`, `between`, and `not between`. If no operator is provided, it is assumed to be `=`.
+Filtering a `SearchRequest` can be done using the `where()` method. An operator can be provided as the second argument where the possible types are `=`, `>`, `>=`, `<`, `<=`, `!=`, `in`, `not in`, `like`, `not like`, `regex`, `not regex`, `exists`, `not exists`, `between`, and `not between`. If no operator is provided, it is assumed to be `=`.
 
 ```php
 $request->where('someField', '>=', 5.45)
         ->where('isFun', true);            //assumed to be an equality
+```
+
+Each of the word-like operators (`in`, `like`, `regex, `exists`, `between`) has a set of four companion helper methods. These follow this general format:
+
+```php
+$request->where{Word}($field, $value)
+        ->orWhere{Word}($field, $value)
+        ->whereNot{Word}($field, $value)
+        ->orWhereNot{Word}($field, $value);
+
+//example:
+$request->whereLike($field, $value)
+        ->orWhereLike($field, $value)
+        ->whereNotLike($field, $value)
+        ->orWhereNotLike($field, $value);
 ```
 
 Reading filters from the search request can be done using the `getFilters()` method:

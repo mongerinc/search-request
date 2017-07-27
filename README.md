@@ -100,14 +100,14 @@ Alternatively, you can call `getSkip()` to avoid doing the calculation above.
 
 #### Filtering
 
-Filtering a `SearchRequest` can be done using the `where()` method. An operator can be provided as the second argument where the possible types are `=`, `>`, `>=`, `<`, `<=`, `!=`, `in`, `not in`, `like`, `not like`, `exists`, `not exists`, `between`, and `not between`. If no operator is provided, it is assumed to be `=`.
+Filtering a `SearchRequest` can be done using the `where()` method. An operator can be provided as the second argument where the possible types are `=`, `>`, `>=`, `<`, `<=`, `!=`, `in`, `not in`, `like`, `not like`, `regex`, `not regex`, `exists`, `not exists`, `between`, and `not between`. If no operator is provided, it is assumed to be `=`.
 
 ```php
 $request->where('someField', '>=', 5.45)
         ->where('isFun', true);            //assumed to be an equality
 ```
 
-Each of the word-like operators (`in`, `like`, `exists`, `between`) has a set of four companion helper methods. These follow this general format:
+Each of the word-like operators (`in`, `like`, `regex, `exists`, `between`) has a set of four companion helper methods. These follow this general format:
 
 ```php
 $request->where{Word}($field, $value)

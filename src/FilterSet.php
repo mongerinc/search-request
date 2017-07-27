@@ -22,7 +22,7 @@ class FilterSet implements ArrayAccess, Countable, IteratorAggregate {
 	/**
 	 * @var array
 	 */
-	protected $operators = ['=', '>', '>=', '<', '<=', '!=', 'in', 'not in', 'like', 'not like', 'exists', 'not exists', 'between', 'not between'];
+	protected $operators = ['=', '>', '>=', '<', '<=', '!=', 'in', 'not in', 'like', 'not like', 'exists', 'not exists', 'between', 'not between', 'regex', 'not regex'];
 
 	/**
 	 * @param  string    $field
@@ -334,6 +334,63 @@ class FilterSet implements ArrayAccess, Countable, IteratorAggregate {
 	public function orWhereNotLike($field, $value)
 	{
 		return $this->whereNotLike($field, $value, 'or');
+	}
+
+	/**
+	 * Add a regex filter
+	 *
+	 * @param  string    $field
+	 * @param  string    $value
+	 * @param  string    $boolean
+	 * @param  bool      $not
+	 *
+	 * @return $this
+	 */
+	public function whereRegex($field, $value, $boolean = 'and', $not = false)
+	{
+		$operator = $not ? 'not regex' : 'regex';
+
+		return $this->where($field, $operator, $value, $boolean);
+	}
+
+	/**
+	 * Add an or regex filter
+	 *
+	 * @param  string    $field
+	 * @param  string    $value
+	 *
+	 * @return $this
+	 */
+	public function orWhereRegex($field, $value)
+	{
+		return $this->whereRegex($field, $value, 'or');
+	}
+
+	/**
+	 * Add a not regex filter
+	 *
+	 * @param  string    $field
+	 * @param  string    $value
+	 * @param  string    $boolean
+	 *
+	 * @return $this
+	 */
+	public function whereNotRegex($field, $value, $boolean = 'and')
+	{
+		return $this->whereRegex($field, $value, $boolean, true);
+	}
+
+	/**
+	 * Add an or not regex filter
+	 *
+	 * @param  string    $field
+	 * @param  string    $value
+	 *
+	 * @return $this
+	 */
+	public function orWhereNotRegex($field, $value)
+	{
+		return $this->whereNotRegex($field, $value, 'or');
 	}
 
 	/**

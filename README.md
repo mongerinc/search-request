@@ -79,6 +79,7 @@ $databaseQuery->orderBy($sort->getField(), $sort->getDirection());
 ```
 
 #### Grouping
+
 Grouping a `SearchRequest` can be done using the `groupBy()` method. The `groupBy()` method takes either a string or and array of strings as an input. The method can also be chained.
 
 ```php

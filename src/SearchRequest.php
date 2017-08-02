@@ -422,6 +422,14 @@ class SearchRequest {
 			}
 		}
 
+		foreach ($this->groups as $key => $group)
+		{
+			if ($group === $original)
+			{
+				$this->groups[$key] = $substitution;
+			}
+		}
+
 		$this->filterSet->substituteField($original, $substitution);
 	}
 

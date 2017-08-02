@@ -37,6 +37,20 @@ class FieldSubstitutionTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @test
 	 */
+	public function groups()
+	{
+		$request = SearchRequest::create()->groupBy('first')->groupBy('second')->groupBy('third');
+
+		$request->substituteFields(['first' => 'subFirst', 'third' => 'subThird']);
+		$this->assertEquals(['subFirst', 'second', 'subThird'], $request->toArray()['groups']);
+
+		$request->substituteField('second', 'subSecond');
+		$this->assertEquals(['subFirst', 'subSecond', 'subThird'], $request->toArray()['groups']);
+	}
+
+	/**
+	 * @test
+	 */
 	public function facets()
 	{
 		$request = new SearchRequest;

@@ -2,7 +2,7 @@
 
 This library provides a set of classes that help represent requests for complex data and provides a way to convert requests to and from a standard JSON format. If you have interfaces with tons of parameters ($filters, $groupings, $page, $rowsPerPage, etc.), or if you're just looking for a standard way to communicate complex requests to other apps without racking your brain over how to represent this data in JSON, you will like this library.
 
-- **Version:** 3.3.0
+- **Version:** 4.0.0
 
 [![Build Status](https://travis-ci.org/mongerinc/search-request.png?branch=master)](https://travis-ci.org/mongerinc/search-request)
 
@@ -12,6 +12,7 @@ Table of contents
 * [Usage](#usage)
   * [JSON](#json)
   * [Sorting](#sorting)
+  * [Grouping](#grouping)
   * [Pagination](#pagination)
   * [Filtering](#filtering)
   * [Faceting](#faceting)
@@ -22,7 +23,7 @@ Table of contents
 Install SearchRequest via composer by adding the following to the `require` block in your `composer.json` file:
 
 ```
-"mongerinc/search-request": "3.*"
+"mongerinc/search-request": "4.*"
 ```
 
 ### Usage
@@ -75,6 +76,21 @@ If you want to retrieve the sorts, you can either call the `getSort()` method to
 $sort = $request->getSort();
 
 $databaseQuery->orderBy($sort->getField(), $sort->getDirection());
+```
+
+#### Grouping
+Grouping a `SearchRequest` can be done using the `groupBy()` method. The `groupBy()` method takes either a string or and array of strings as an input. The method can also be chained.
+
+```php
+$request->groupBy('field')->groupBy('anotherField');
+
+$request->groupBy(['field', 'anotherField']);
+```
+
+Retrieving the set of groups is done by the `getGroups()` method;
+
+```php
+$request->getGroups();
 ```
 
 #### Pagination

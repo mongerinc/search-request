@@ -88,7 +88,7 @@ $request->groupBy('field')->groupBy('anotherField');
 $request->groupBy(['field', 'anotherField']);
 ```
 
-Retrieving the set of groups is done by the `getGroups()` method;
+Retrieving the set of groups is done by the `getGroups()` method.
 
 ```php
 $request->getGroups();

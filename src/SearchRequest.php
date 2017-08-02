@@ -20,6 +20,13 @@ class SearchRequest {
 	protected $facets = [];
 
 	/**
+	 * Holds the current groups
+	 *
+	 * @var array
+	 */
+	protected $groups = [];
+
+	/**
 	 * The global search term
 	 *
 	 * @var string
@@ -61,6 +68,7 @@ class SearchRequest {
 			$this->limit = $inputs['limit'];
 			$this->addSortsFromArray($inputs['sorts']);
 			$this->addFacets($inputs['facets']);
+			$this->groupBy($inputs['groups']);
 			$this->addFilterSetFromArray($inputs['filterSet']);
 		}
 		else
@@ -258,6 +266,33 @@ class SearchRequest {
 	}
 
 	/**
+	 * Add a grouping
+	 *
+	 * @param  mixed    $field
+	 *
+	 * @return $this
+	 */
+	public function groupBy($field)
+	{
+		if (!is_string($field) && !is_array($field))
+			throw new InvalidArgumentException("Group by can only be a string or array.");
+
+		$this->groups = array_merge($this->groups, (array) $field);
+
+		return $this;
+	}
+
+	/**
+	 * Gets groups
+	 *
+	 * @return array
+	 */
+	public function getGroups()
+	{
+		return $this->groups;
+	}
+
+	/**
 	 * Sets the requested page
 	 *
 	 * @param  int    $page
@@ -401,6 +436,7 @@ class SearchRequest {
 			'term' => $this->term,
 			'page' => $this->page,
 			'limit' => $this->limit,
+			'groups' => $this->groups,
 			'sorts' => array_map(function(Sort $sort) {return $sort->toArray();}, $this->sorts),
 			'filterSet' => $this->filterSet->toArray(),
 			'facets' => array_map(function(Facet $facet) {return $facet->toArray();}, $this->facets),

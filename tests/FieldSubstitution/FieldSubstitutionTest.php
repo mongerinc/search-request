@@ -8,6 +8,22 @@ class FieldSubstitutionTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @test
 	 */
+	public function selects()
+	{
+		$request = new SearchRequest;
+
+		$request->select(['first', 'second', 'third']);
+
+		$request->substituteFields(['first' => 'subFirst', 'third' => 'subThird']);
+		$this->assertEquals(['subFirst', 'second', 'subThird'], $request->toArray()['selects']);
+
+		$request->substituteField('second', 'subSecond');
+		$this->assertEquals(['subFirst', 'subSecond', 'subThird'], $request->toArray()['selects']);
+	}
+
+	/**
+	 * @test
+	 */
 	public function sorts()
 	{
 		$request = new SearchRequest;

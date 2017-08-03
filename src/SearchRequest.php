@@ -107,7 +107,7 @@ class SearchRequest {
 	public function select($field)
 	{
 		if (!is_string($field) && !is_array($field))
-			throw new InvalidArgumentException("A search term can only be a string or null.");
+			throw new InvalidArgumentException("A select field must be a string or an array of strings.");
 
 		$this->selects = (array) $field;
 
@@ -124,7 +124,7 @@ class SearchRequest {
 	public function addSelect($field)
 	{
 		if (!is_string($field) && !is_array($field))
-			throw new InvalidArgumentException("A search term can only be a string or null.");
+			throw new InvalidArgumentException("A select field must be a string or an array of strings.");
 
 		$this->selects = array_merge($this->selects, (array) $field);
 

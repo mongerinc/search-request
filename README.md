@@ -57,7 +57,7 @@ $request = new SearchRequest($json);
 
 #### Selection
 
-The most common method of setting selections the request is by using the `select()` method which overrides any existing selects:
+The most common method of setting selections on the request is by using the `select()` method which overrides any existing selects:
 
 ```php
 $request->select(['field1', 'field2']);

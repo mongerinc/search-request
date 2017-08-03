@@ -1,5 +1,8 @@
 ## Changelog
 
+### 5.0.0
+- Added selects
+
 ### 4.0.0
 - Added grouping
 

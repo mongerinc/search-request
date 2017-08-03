@@ -134,7 +134,7 @@ class SearchRequest {
 	/**
 	 * Get the selects
 	 *
-	 * @return $array
+	 * @return array
 	 */
 	public function getSelects()
 	{

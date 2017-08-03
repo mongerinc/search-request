@@ -6,6 +6,13 @@ use InvalidArgumentException;
 class SearchRequest {
 
 	/**
+	 * Holds the selects
+	 *
+	 * @var array
+	 */
+	protected $selects = [];
+
+	/**
 	 * Holds the sort objects in order of precedence
 	 *
 	 * @var array
@@ -64,6 +71,7 @@ class SearchRequest {
 			$inputs = json_decode($json, true);
 
 			$this->term = $inputs['term'];
+			$this->selects = $inputs['selects'];
 			$this->page = $inputs['page'];
 			$this->limit = $inputs['limit'];
 			$this->addSortsFromArray($inputs['sorts']);
@@ -87,6 +95,50 @@ class SearchRequest {
 	public static function create($json = null)
 	{
 		return new SearchRequest($json);
+	}
+
+	/**
+	 * Set the selects
+	 *
+	 * @param  mixed    $field
+	 *
+	 * @return $this
+	 */
+	public function select($field)
+	{
+		if (!is_string($field) && !is_array($field))
+			throw new InvalidArgumentException("A select field must be a string or an array of strings.");
+
+		$this->selects = (array) $field;
+
+		return $this;
+	}
+
+	/**
+	 * Add a select
+	 *
+	 * @param  mixed    $field
+	 *
+	 * @return $this
+	 */
+	public function addSelect($field)
+	{
+		if (!is_string($field) && !is_array($field))
+			throw new InvalidArgumentException("A select field must be a string or an array of strings.");
+
+		$this->selects = array_merge($this->selects, (array) $field);
+
+		return $this;
+	}
+
+	/**
+	 * Get the selects
+	 *
+	 * @return array
+	 */
+	public function getSelects()
+	{
+		return $this->selects;
 	}
 
 	/**
@@ -406,6 +458,14 @@ class SearchRequest {
 		if (!is_string($original) || !is_string($substitution))
 			throw new InvalidArgumentException("Field subtitutions must consist of an original string and a substitution string.");
 
+		foreach ($this->selects as $key => $select)
+		{
+			if ($select === $original)
+			{
+				$this->selects[$key] = $substitution;
+			}
+		}
+
 		foreach ($this->sorts as $sort)
 		{
 			if ($sort->getField() === $original)
@@ -444,6 +504,7 @@ class SearchRequest {
 			'term' => $this->term,
 			'page' => $this->page,
 			'limit' => $this->limit,
+			'selects' => $this->selects,
 			'groups' => $this->groups,
 			'sorts' => array_map(function(Sort $sort) {return $sort->toArray();}, $this->sorts),
 			'filterSet' => $this->filterSet->toArray(),

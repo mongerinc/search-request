@@ -36,6 +36,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 
 		$request->page(5)->limit(50)
 		        ->term('search this')
+		        ->select(['field1', 'field2'])
 		        ->addSort('something', 'asc')->addSort('otherThing', 'desc')
 		        ->groupBy('field')->groupBy('anotherField')
 		        ->where('fun', 'more')->orWhere(function($filterSet)
@@ -58,6 +59,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 			'term' => 'search this',
 			'page' => 5,
 			'limit' => 50,
+			'selects' => ['field1', 'field2'],
 			'groups' => ['field', 'anotherField'],
 			'sorts' => [
 				['field' => 'something', 'direction' => 'asc'],

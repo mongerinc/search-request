@@ -2,7 +2,7 @@
 
 This library provides a set of classes that help represent requests for complex data and provides a way to convert requests to and from a standard JSON format. If you have interfaces with tons of parameters ($filters, $groupings, $page, $rowsPerPage, etc.), or if you're just looking for a standard way to communicate complex requests to other apps without racking your brain over how to represent this data in JSON, you will like this library.
 
-- **Version:** 4.0.0
+- **Version:** 5.0.0
 
 [![Build Status](https://travis-ci.org/mongerinc/search-request.png?branch=master)](https://travis-ci.org/mongerinc/search-request)
 
@@ -11,6 +11,7 @@ Table of contents
 * [Installation](#installation)
 * [Usage](#usage)
   * [JSON](#json)
+  * [Selection](#selection)
   * [Sorting](#sorting)
   * [Grouping](#grouping)
   * [Pagination](#pagination)
@@ -23,7 +24,7 @@ Table of contents
 Install SearchRequest via composer by adding the following to the `require` block in your `composer.json` file:
 
 ```
-"mongerinc/search-request": "4.*"
+"mongerinc/search-request": "5.*"
 ```
 
 ### Usage
@@ -52,6 +53,26 @@ Likewise, you can build a new `SearchRequest` instance using a JSON string that 
 
 ```
 $request = new SearchRequest($json);
+```
+
+#### Selection
+
+The most common method of setting selections on the request is by using the `select()` method which overrides any existing selects:
+
+```php
+$request->select(['field1', 'field2']);
+```
+
+If you want to add to existing selects, you can call the `addSelect()` method instead. You can chain this method:
+
+```php
+$request->addSelect('field1')->addSelect('field2');
+```
+
+Retrieving the set of selects is done by the `getSelects()` method.
+
+```php
+$request->getSelects();
 ```
 
 #### Sorting

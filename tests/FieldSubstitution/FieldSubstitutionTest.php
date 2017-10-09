@@ -1,4 +1,4 @@
-<?php namespace Monger\SearchRequest\Tests;
+<?php namespace Monger\SearchRequest\Tests\FieldSubstitution;
 
 use Monger\SearchRequest\Facet;
 use Monger\SearchRequest\SearchRequest;

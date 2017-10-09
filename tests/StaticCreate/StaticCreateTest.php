@@ -1,4 +1,4 @@
-<?php namespace Monger\SearchRequest\Tests\Term;
+<?php namespace Monger\SearchRequest\Tests\StaticCreate;
 
 use Monger\SearchRequest\SearchRequest;
 

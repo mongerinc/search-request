@@ -1,5 +1,9 @@
 ## Changelog
 
+### 5.2.0
+- Handle deep-cloning of the search request
+- Fixing a few test namespaces
+
 ### 5.1.0
 - Removing filters by name
 

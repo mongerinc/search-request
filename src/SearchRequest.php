@@ -68,16 +68,7 @@ class SearchRequest {
 	{
 		if ($json)
 		{
-			$inputs = json_decode($json, true);
-
-			$this->term = $inputs['term'];
-			$this->selects = $inputs['selects'];
-			$this->page = $inputs['page'];
-			$this->limit = $inputs['limit'];
-			$this->addSortsFromArray($inputs['sorts']);
-			$this->addFacets($inputs['facets']);
-			$this->groupBy($inputs['groups']);
-			$this->addFilterSetFromArray($inputs['filterSet']);
+			$this->overrideWithJson($json);
 		}
 		else
 		{
@@ -95,6 +86,27 @@ class SearchRequest {
 	public static function create($json = null)
 	{
 		return new SearchRequest($json);
+	}
+
+	/**
+	 * Overrides all values with the json input
+	 *
+	 * @param  string    $json
+	 *
+	 * @return SearchRequest
+	 */
+	public function overrideWithJson($json)
+	{
+		$inputs = json_decode($json, true);
+
+		$this->term = $inputs['term'];
+		$this->selects = $inputs['selects'];
+		$this->page = $inputs['page'];
+		$this->limit = $inputs['limit'];
+		$this->addSortsFromArray($inputs['sorts']);
+		$this->addFacets($inputs['facets']);
+		$this->groupBy($inputs['groups']);
+		$this->addFilterSetFromArray($inputs['filterSet']);
 	}
 
 	/**
@@ -532,6 +544,14 @@ class SearchRequest {
 	protected function isIntegeric($value)
 	{
 		return is_string($value) ? (preg_match('/^-?[0-9]*$/D', $value) === 1) : is_int($value);
+	}
+
+	/**
+	 * Handle deep cloning of the search request
+	 */
+	public function __clone()
+	{
+		$this->overrideWithJson($this->toJson());
 	}
 
 	/**

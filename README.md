@@ -2,7 +2,7 @@
 
 This library provides a set of classes that help represent requests for complex data and provides a way to convert requests to and from a standard JSON format. If you have interfaces with tons of parameters ($filters, $groupings, $page, $rowsPerPage, etc.), or if you're just looking for a standard way to communicate complex requests to other apps without racking your brain over how to represent this data in JSON, you will like this library.
 
-- **Version:** 5.0.0
+- **Version:** 5.1.0
 
 [![Build Status](https://travis-ci.org/mongerinc/search-request.png?branch=master)](https://travis-ci.org/mongerinc/search-request)
 
@@ -202,6 +202,14 @@ When reading a complex set of conditionals back from the `SearchRequest`, there 
 2. A `Filter` object represents a field, value, and conditional operator along with a boolean (and/or).
 
 Since the nesting of conditionals is theoretically infinite, you may want to implement a recursive function to apply the request to the library of your choice (like a database query builder). An example of this can be seen in the `/examples` directory.
+
+It's also possible to remove filters by name:
+
+```php
+$request->where('foo', 1)->where('moo', 2)->where('goo', 3);
+
+$request->removeFilters('foo')->removeFilters(['moo', 'goo']);
+```
 
 #### Faceting
 

@@ -569,8 +569,9 @@ class SearchRequest {
 	{
 		$isWhere = strpos(strtolower($method), 'where') !== false;
 		$isFilterFetcher = strpos($method, 'getFilter') !== false;
+		$isFilterRemover = strpos($method, 'removeFilter') !== false;
 
-		return $isWhere || $isFilterFetcher;
+		return $isWhere || $isFilterFetcher || $isFilterRemover;
 	}
 
 }

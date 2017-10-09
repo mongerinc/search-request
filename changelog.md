@@ -1,5 +1,8 @@
 ## Changelog
 
+### 5.1.0
+- Removing filters by name
+
 ### 5.0.0
 - Added selects
 

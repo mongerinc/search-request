@@ -233,6 +233,34 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @test
+	 */
+	public function removeExisting()
+	{
+		$request = new SearchRequest;
+
+		$request->where('first', 'foo')
+		        ->where('second', '<', 100)
+		        ->where('second', '>', 50)
+		        ->where('third', false)
+		        ->where('fourth', true);
+
+		$request->removeFilters('second');
+
+		$this->checkRequest($request, $this->buildExpectedFilterSet([
+			['field' => 'first', 'operator' => '=', 'value' => 'foo', 'boolean' => 'and'],
+			['field' => 'third', 'operator' => '=', 'value' => false, 'boolean' => 'and'],
+			['field' => 'fourth', 'operator' => '=', 'value' => true, 'boolean' => 'and'],
+		]));
+
+		$request->removeFilters(['third', 'fourth']);
+
+		$this->checkRequest($request, $this->buildExpectedFilterSet([
+			['field' => 'first', 'operator' => '=', 'value' => 'foo', 'boolean' => 'and'],
+		]));
+	}
+
+	/**
 	 * Checks the filter set for the provided request against the given expected filter set
 	 *
 	 * @param  \Monger\SearchRequest\SearchRequest   $request

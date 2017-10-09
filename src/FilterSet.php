@@ -489,6 +489,31 @@ class FilterSet implements ArrayAccess, Countable, IteratorAggregate {
 	}
 
 	/**
+	 * Removes all instances of the filter with the provided field name(s)
+	 *
+	 * @param  mixed    $key
+	 *
+	 * @return $this
+	 */
+	public function removeFilters($key)
+	{
+		$newFilters = [];
+		$keys = (array) $key;
+
+		foreach ($this->filters as $filter)
+		{
+			if (!($filter instanceof Filter) || !in_array($filter->getField(), $keys))
+			{
+				$newFilters[] = $filter;
+			}
+		}
+
+		$this->filters = $newFilters;
+
+		return $this;
+	}
+
+	/**
 	 * Substitutes all field names in the filter set that match the provided substitution
 	 *
 	 * @param  string    $original

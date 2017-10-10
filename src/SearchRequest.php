@@ -99,6 +99,9 @@ class SearchRequest {
 	{
 		$inputs = json_decode($json, true);
 
+		$this->sorts = [];
+		$this->facets = [];
+		$this->groups = [];
 		$this->term = $inputs['term'];
 		$this->selects = $inputs['selects'];
 		$this->page = $inputs['page'];

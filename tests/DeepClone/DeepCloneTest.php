@@ -20,6 +20,7 @@ class DeepCloneTest extends \PHPUnit_Framework_TestCase {
 		                ->facet('something')->page(2)->limit(100)->sortByCount()->setSortDirection('desc')->setMinimumCount(5)->includeOwnFilters();
 
 		$newRequest = clone $originalRequest;
+		$originalRequest->where('somethingElse', false);
 
 		$this->assertEquals($this->getExpectedJson(), $newRequest->toJson());
 	}

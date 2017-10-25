@@ -101,6 +101,48 @@ class Filter {
 	}
 
 	/**
+	 * Sets the operator
+	 *
+	 * @param  string    $operator
+	 *
+	 * @return $this
+	 */
+	public function setOperator($operator)
+	{
+		$this->operator = $operator;
+
+		return $this;
+	}
+
+	/**
+	 * Sets the value
+	 *
+	 * @param  string    $value
+	 *
+	 * @return $this
+	 */
+	public function setValue($value)
+	{
+		$this->value = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Sets the boolean
+	 *
+	 * @param  string    $boolean
+	 *
+	 * @return $this
+	 */
+	public function setBoolean($boolean)
+	{
+		$this->boolean = $boolean;
+
+		return $this;
+	}
+
+	/**
 	 * Converts the filter to a representative array
 	 *
 	 * @return array

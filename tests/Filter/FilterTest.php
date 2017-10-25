@@ -261,6 +261,22 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @test
+	 */
+	public function overrideValues()
+	{
+		$request = new SearchRequest;
+
+		$request->where('foo', '>', 5, 'and');
+
+		$request->getFilter('foo')->setOperator('<')->setValue(10)->setBoolean('or');
+
+		$this->checkRequest($request, $this->buildExpectedFilterSet([
+			['field' => 'foo', 'operator' => '<', 'value' => 10, 'boolean' => 'or'],
+		]));
+	}
+
+	/**
 	 * Checks the filter set for the provided request against the given expected filter set
 	 *
 	 * @param  \Monger\SearchRequest\SearchRequest   $request

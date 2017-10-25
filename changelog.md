@@ -1,5 +1,8 @@
 ## Changelog
 
+### 5.3.0
+- Allow overriding of all filter values
+
 ### 5.2.1
 - Fixing deep-cloning duplicating sorts/facets/groups
 

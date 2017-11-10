@@ -2,7 +2,7 @@
 
 This library provides a set of classes that help represent requests for complex data and provides a way to convert requests to and from a standard JSON format. If you have interfaces with tons of parameters ($filters, $groupings, $page, $rowsPerPage, etc.), or if you're just looking for a standard way to communicate complex requests to other apps without racking your brain over how to represent this data in JSON, you will like this library.
 
-- **Version:** 5.3.0
+- **Version:** 5.3.1
 
 [![Build Status](https://travis-ci.org/mongerinc/search-request.png?branch=master)](https://travis-ci.org/mongerinc/search-request)
 
@@ -18,6 +18,7 @@ Table of contents
   * [Filtering](#filtering)
   * [Faceting](#faceting)
   * [Field Substitution](#field-substitution)
+* [Examples](#examples)
 
 ### Installation
 
@@ -310,3 +311,7 @@ $request->substituteFields(
 	['category.id' => 'category_id'],
 );
 ```
+
+### Examples
+
+At the root of this project there is an `/examples` directory that contains a few examples of how you would apply search requests to database queries. As this project was inspired by Laravel's query builder, one example shows how to leverage SearchRequest to apply complex parameter sets to it in a reusable way. Using the same approach, SearchRequest can be used to apply complex parameter sets to any library that needs them (e.g. MongoDB, Solr, etc.).

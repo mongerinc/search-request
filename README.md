@@ -18,6 +18,7 @@ Table of contents
   * [Filtering](#filtering)
   * [Faceting](#faceting)
   * [Field Substitution](#field-substitution)
+* [Examples](#examples)
 
 ### Installation
 
@@ -310,3 +311,7 @@ $request->substituteFields(
 	['category.id' => 'category_id'],
 );
 ```
+
+### Examples
+
+At the root of this project there is an `/examples` directory that contains a few examples of how you would apply search requests to database queries. As this project was inspired by Laravel's query builder, one example shows how to leverage SearchRequest to apply complex parameter sets to it in a reusable way. Using the same approach, SearchRequest can be used to apply complex parameter sets to any library that needs them (e.g. MongoDB, Solr, etc.).

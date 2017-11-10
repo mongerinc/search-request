@@ -3,15 +3,8 @@
 use SomeFramework\SomeQueryBuilder;
 use Monger\SearchRequest\SearchRequest;
 
-class ComplexDatabaseRepository implements RepositoryInterface {
+class SimpleDatabaseRepository implements RepositoryInterface {
 
-	/**
-	 * Get any number of things defined by the provided search request
-	 *
-	 * @param  \Monger\SearchRequest\SearchRequest    $request
-	 *
-	 * @return array
-	 */
 	public function getThings(SearchRequest $request)
 	{
 		$query = $this->newQuery();

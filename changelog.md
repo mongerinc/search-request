@@ -1,5 +1,8 @@
 ## Changelog
 
+### 5.3.1
+- Updating the examples
+
 ### 5.3.0
 - Allow overriding of all filter values
 

@@ -12,7 +12,7 @@ class Exists implements Type {
 
 	public function apply(Filter $filter, Query $query)
 	{
-		$not = $filter->getOperator() === 'not exists';
+		$not = $filter->getOperator() !== 'not exists';
 
 		$query->whereNull($filter->getField(), $filter->getBoolean(), $not);
 	}

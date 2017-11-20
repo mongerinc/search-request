@@ -1,5 +1,8 @@
 ## Changelog
 
+### 5.3.2
+- Fixing the exists query request applier example
+
 ### 5.3.1
 - Updating the examples
 

@@ -11,13 +11,13 @@ class DeepCloneTest extends \PHPUnit_Framework_TestCase {
 	{
 		$originalRequest = SearchRequest::create();
 
-		$originalRequest->page(2)->limit(10)
-		                ->term('something')
+		$originalRequest->term('something')
 		                ->select('something')
 		                ->where('something', true)
 		                ->addSort('something', 'asc')
 		                ->groupBy('something')
-		                ->facet('something')->page(2)->limit(100)->sortByCount()->setSortDirection('desc')->setMinimumCount(5)->includeOwnFilters();
+		                ->page(2)->limit(10)
+		                ->facet('something')->sortByCount()->setSortDirection('desc')->setMinimumCount(5)->includeOwnFilters()->page(2)->limit(100);
 
 		$newRequest = clone $originalRequest;
 		$originalRequest->where('somethingElse', false);

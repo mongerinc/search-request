@@ -34,8 +34,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 	{
 		$request = new SearchRequest;
 
-		$request->page(5)->limit(50)
-		        ->term('search this')
+		$request->term('search this')
 		        ->select(['field1', 'field2'])
 		        ->addSort('something', 'asc')->addSort('otherThing', 'desc')
 		        ->groupBy('field')->groupBy('anotherField')
@@ -43,7 +42,8 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 		        {
 		            $filterSet->where('hats', '>', 'large')->where('butts', 'small');
 		        })
-		        ->facet('something')->page(2)->limit(100)->sortByCount()->setSortDirection('desc')->setMinimumCount(5)->includeOwnFilters();
+		        ->page(5)->limit(50)
+		        ->facet('something')->sortByCount()->setSortDirection('desc')->setMinimumCount(5)->includeOwnFilters()->page(2)->limit(100);
 
 		return $request;
 	}

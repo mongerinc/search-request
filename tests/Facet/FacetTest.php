@@ -125,10 +125,70 @@ class FacetTest extends \PHPUnit_Framework_TestCase {
 			'sortType' => 'value',
 			'sortDirection' => 'asc',
 			'page' => 1,
-				'limit' => 10,
+			'limit' => 10,
 			'minimumCount' => 1,
 			'excludesOwnFilters' => true,
 		], $facet->toArray());
+	}
+
+	/**
+	 * @test
+	 */
+	public function paginationResetsByDefault()
+	{
+		$request = new SearchRequest;
+		$facet = $request->facet('someField');
+
+		$facet->page(5)->sortByCount();
+		$this->assertEquals(1, $facet->getPage());
+
+		$facet->page(5)->sortByValue();
+		$this->assertEquals(1, $facet->getPage());
+
+		$facet->page(5)->setMinimumCount(5);
+		$this->assertEquals(1, $facet->getPage());
+
+		$facet->page(5)->excludeOwnFilters();
+		$this->assertEquals(1, $facet->getPage());
+
+		$facet->page(5)->includeOwnFilters();
+		$this->assertEquals(1, $facet->getPage());
+	}
+
+	/**
+	 * @test
+	 */
+	public function noPaginationResetsWhenDisabled()
+	{
+		$request = new SearchRequest;
+		$facet = $request->facet('someField')->disableAutomaticPageReset();
+
+		$facet->page(5)->sortByCount();
+		$this->assertEquals(5, $facet->getPage());
+
+		$facet->page(5)->sortByValue();
+		$this->assertEquals(5, $facet->getPage());
+
+		$facet->page(5)->setMinimumCount(5);
+		$this->assertEquals(5, $facet->getPage());
+
+		$facet->page(5)->excludeOwnFilters();
+		$this->assertEquals(5, $facet->getPage());
+
+		$facet->page(5)->includeOwnFilters();
+		$this->assertEquals(5, $facet->getPage());
+	}
+
+	/**
+	 * @test
+	 */
+	public function paginationResetsWhenReenabled()
+	{
+		$request = new SearchRequest;
+		$facet = $request->facet('someField')->disableAutomaticPageReset()->enableAutomaticPageReset();
+
+		$facet->page(5)->sortByCount();
+		$this->assertEquals(1, $facet->getPage());
 	}
 
 }

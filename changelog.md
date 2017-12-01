@@ -1,5 +1,8 @@
 ## Changelog
 
+### 5.4.0
+- Automatically resetting the page to 1 whenever a filter, term, sort, or grouping changes. Same for facets with the other filter/sort changes.
+
 ### 5.3.2
 - Fixing the exists query request applier example
 

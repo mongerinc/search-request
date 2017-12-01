@@ -40,6 +40,13 @@ class Facet {
 	protected $excludesOwnFilters = true;
 
 	/**
+	 * Determines if the page should reset when filter/sort changes
+	 *
+	 * @var bool
+	 */
+	protected $pageShouldAutomaticallyReset = true;
+
+	/**
 	 * @param  string    $field
 	 */
 	public function __construct(array $values)
@@ -49,10 +56,10 @@ class Facet {
 		$this->setField($values['field']);
 		$this->setSortType($values['sortType']);
 		$this->setSortDirection($values['sortDirection']);
-		$this->setPage($values['page']);
-		$this->setLimit($values['limit']);
 		$this->setMinimumCount($values['minimumCount']);
 		$this->setExcludesOwnFilters($values['excludesOwnFilters']);
+		$this->setPage($values['page']);
+		$this->setLimit($values['limit']);
 	}
 
 	/**
@@ -174,6 +181,9 @@ class Facet {
 
 		$this->sortType = $type;
 
+		if ($this->pageShouldAutomaticallyReset)
+			$this->page(1);
+
 		return $this;
 	}
 
@@ -188,6 +198,9 @@ class Facet {
 			throw new InvalidArgumentException("The sort direction must be either 'asc' or 'desc'.");
 
 		$this->sortDirection = $direction;
+
+		if ($this->pageShouldAutomaticallyReset)
+			$this->page(1);
 
 		return $this;
 	}
@@ -268,6 +281,9 @@ class Facet {
 
 		$this->minimumCount = (int) $minimumCount;
 
+		if ($this->pageShouldAutomaticallyReset)
+			$this->page(1);
+
 		return $this;
 	}
 
@@ -295,6 +311,33 @@ class Facet {
 	public function setExcludesOwnFilters($value)
 	{
 		$this->excludesOwnFilters = (bool) $value;
+
+		if ($this->pageShouldAutomaticallyReset)
+			$this->page(1);
+
+		return $this;
+	}
+
+	/**
+	 * Disables automatic page resetting
+	 *
+	 * @return $this
+	 */
+	public function disableAutomaticPageReset()
+	{
+		$this->pageShouldAutomaticallyReset = false;
+
+		return $this;
+	}
+
+	/**
+	 * Enables automatic page resetting
+	 *
+	 * @return $this
+	 */
+	public function enableAutomaticPageReset()
+	{
+		$this->pageShouldAutomaticallyReset = true;
 
 		return $this;
 	}

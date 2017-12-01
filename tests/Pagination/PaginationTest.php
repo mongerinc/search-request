@@ -47,4 +47,55 @@ class PaginationTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(200, $request->getSkip());
 	}
 
+	/**
+	 * @test
+	 */
+	public function resetsByDefault()
+	{
+		$request = new SearchRequest;
+
+		$request->page(5)->where('foo', true);
+		$this->assertEquals(1, $request->getPage());
+
+		$request->page(5)->sort('foo', 'desc');
+		$this->assertEquals(1, $request->getPage());
+
+		$request->page(5)->groupBy('foo');
+		$this->assertEquals(1, $request->getPage());
+
+		$request->page(5)->term('foo');
+		$this->assertEquals(1, $request->getPage());
+	}
+
+	/**
+	 * @test
+	 */
+	public function noResetsWhenDisabled()
+	{
+		$request = SearchRequest::create()->disableAutomaticPageReset();
+
+		$request->page(5)->where('foo', true);
+		$this->assertEquals(5, $request->getPage());
+
+		$request->page(5)->sort('foo', 'desc');
+		$this->assertEquals(5, $request->getPage());
+
+		$request->page(5)->groupBy('foo');
+		$this->assertEquals(5, $request->getPage());
+
+		$request->page(5)->term('foo');
+		$this->assertEquals(5, $request->getPage());
+	}
+
+	/**
+	 * @test
+	 */
+	public function resetsWhenReenabled()
+	{
+		$request = SearchRequest::create()->disableAutomaticPageReset()->enableAutomaticPageReset();
+
+		$request->page(5)->where('foo', true);
+		$this->assertEquals(1, $request->getPage());
+	}
+
 }

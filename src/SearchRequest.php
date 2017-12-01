@@ -62,6 +62,13 @@ class SearchRequest {
 	protected $filterSet;
 
 	/**
+	 * Determines if the page should reset when filter/group/sort changes
+	 *
+	 * @var bool
+	 */
+	protected $pageShouldAutomaticallyReset = true;
+
+	/**
 	 * @param  mixed    $json    //null | string
 	 */
 	public function __construct($json = null)
@@ -104,12 +111,12 @@ class SearchRequest {
 		$this->groups = [];
 		$this->term = $inputs['term'];
 		$this->selects = $inputs['selects'];
-		$this->page = $inputs['page'];
-		$this->limit = $inputs['limit'];
 		$this->addSortsFromArray($inputs['sorts']);
 		$this->addFacets($inputs['facets']);
 		$this->groupBy($inputs['groups']);
 		$this->addFilterSetFromArray($inputs['filterSet']);
+		$this->page = $inputs['page'];
+		$this->limit = $inputs['limit'];
 	}
 
 	/**
@@ -195,6 +202,9 @@ class SearchRequest {
 
 		$this->term = $term;
 
+		if ($this->pageShouldAutomaticallyReset)
+			$this->page(1);
+
 		return $this;
 	}
 
@@ -218,7 +228,9 @@ class SearchRequest {
 	 */
 	public function sort($field, $direction = 'asc')
 	{
-		$this->sorts = [new Sort($field, $direction)];
+		$this->sorts = [];
+
+		$this->addSort($field, $direction);
 
 		return $this;
 	}
@@ -234,6 +246,9 @@ class SearchRequest {
 	public function addSort($field, $direction = 'asc')
 	{
 		$this->sorts[] = new Sort($field, $direction);
+
+		if ($this->pageShouldAutomaticallyReset)
+			$this->page(1);
 
 		return $this;
 	}
@@ -346,6 +361,9 @@ class SearchRequest {
 
 		$this->groups = array_merge($this->groups, (array) $field);
 
+		if ($this->pageShouldAutomaticallyReset)
+			$this->page(1);
+
 		return $this;
 	}
 
@@ -437,6 +455,30 @@ class SearchRequest {
 	public function getSkip()
 	{
 		return ($this->page - 1) * $this->limit;
+	}
+
+	/**
+	 * Disables automatic page resetting
+	 *
+	 * @return $this
+	 */
+	public function disableAutomaticPageReset()
+	{
+		$this->pageShouldAutomaticallyReset = false;
+
+		return $this;
+	}
+
+	/**
+	 * Enables automatic page resetting
+	 *
+	 * @return $this
+	 */
+	public function enableAutomaticPageReset()
+	{
+		$this->pageShouldAutomaticallyReset = true;
+
+		return $this;
 	}
 
 	/**
@@ -593,6 +635,9 @@ class SearchRequest {
 		$isWhere = strpos(strtolower($method), 'where') !== false;
 		$isFilterFetcher = strpos($method, 'getFilter') !== false;
 		$isFilterRemover = strpos($method, 'removeFilter') !== false;
+
+		if ($isWhere && $this->pageShouldAutomaticallyReset)
+			$this->page(1);
 
 		return $isWhere || $isFilterFetcher || $isFilterRemover;
 	}

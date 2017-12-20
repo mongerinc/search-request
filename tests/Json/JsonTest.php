@@ -3,7 +3,7 @@
 use DateTime;
 use Monger\SearchRequest\SearchRequest;
 
-class JsonTest extends \PHPUnit\Framework\TestCase {
+class JsonTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @test

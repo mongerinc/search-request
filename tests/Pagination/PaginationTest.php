@@ -2,7 +2,7 @@
 
 use Monger\SearchRequest\SearchRequest;
 
-class PaginationTest extends \PHPUnit\Framework\TestCase {
+class PaginationTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @test

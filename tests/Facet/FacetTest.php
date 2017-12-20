@@ -2,7 +2,7 @@
 
 use Monger\SearchRequest\SearchRequest;
 
-class FacetTest extends \PHPUnit\Framework\TestCase {
+class FacetTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @test

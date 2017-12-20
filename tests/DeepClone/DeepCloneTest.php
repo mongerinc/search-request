@@ -2,7 +2,7 @@
 
 use Monger\SearchRequest\SearchRequest;
 
-class DeepCloneTest extends \PHPUnit_Framework_TestCase {
+class DeepCloneTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @test

@@ -576,7 +576,15 @@ class SearchRequest {
 	 */
 	public function toJson()
 	{
-		return json_encode($this->toArray());
+		$request = $this->toArray();
+
+		array_walk_recursive($request, function(&$value)
+		{
+			if (is_a($value, 'DateTime'))
+				$value = $value->format('Y-m-d H:i:s');
+		});
+
+		return json_encode($request);
 	}
 
 	/**

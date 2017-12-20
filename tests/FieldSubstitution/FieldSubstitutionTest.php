@@ -3,7 +3,7 @@
 use Monger\SearchRequest\Facet;
 use Monger\SearchRequest\SearchRequest;
 
-class FieldSubstitutionTest extends \PHPUnit_Framework_TestCase {
+class FieldSubstitutionTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @test

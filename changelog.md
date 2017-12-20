@@ -1,6 +1,7 @@
 ## Changelog
 
 ### 5.5.0
+- Fixing `toJson()` for DateTime values
 - Upgrading to phpunit 6
 
 ### 5.4.0

@@ -4,7 +4,7 @@ use Monger\SearchRequest\Filter;
 use Monger\SearchRequest\FilterSet;
 use Monger\SearchRequest\SearchRequest;
 
-class FilterTest extends \PHPUnit_Framework_TestCase {
+class FilterTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @test

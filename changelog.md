@@ -1,5 +1,8 @@
 ## Changelog
 
+### 5.5.0
+- Upgrading to phpunit 6
+
 ### 5.4.0
 - Automatically resetting the page to 1 whenever a filter, term, sort, or grouping changes. Same for facets with the other filter/sort changes.
 

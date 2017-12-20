@@ -2,7 +2,7 @@
 
 use Monger\SearchRequest\SearchRequest;
 
-class GroupTest extends \PHPUnit_Framework_TestCase {
+class GroupTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @test

@@ -1,5 +1,6 @@
 <?php namespace Monger\SearchRequest\Tests\Json;
 
+use DateTime;
 use Monger\SearchRequest\SearchRequest;
 
 class JsonTest extends \PHPUnit_Framework_TestCase {
@@ -23,6 +24,40 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 		$expectedRequest = $this->getExpectedRequest();
 
 		$this->assertEquals($expectedRequest->toJson(), $request->toJson());
+	}
+
+	/**
+	 * @test
+	 */
+	public function dates()
+	{
+		$request = SearchRequest::create()->where('date', new DateTime('2017-01-15 23:34:10'))
+		                                  ->where(function($filterSet)
+		                                  {
+		                                      $filterSet->where('anotherDate', new DateTime('2016-12-25 01:41:32'));
+		                                  });
+
+		$this->assertEquals(json_encode([
+			'term' => null,
+			'page' => 1,
+			'limit' => 10,
+			'selects' => [],
+			'groups' => [],
+			'sorts' => [],
+			'filterSet' => [
+				'boolean' => 'and',
+				'filters' => [
+					['field' => 'date', 'operator' => '=', 'value' => '2017-01-15 23:34:10', 'boolean' => 'and'],
+					[
+						'boolean' => 'and',
+						'filters' => [
+							['field' => 'anotherDate', 'operator' => '=', 'value' => '2016-12-25 01:41:32', 'boolean' => 'and'],
+						]
+					]
+				]
+			],
+			'facets' => [],
+		]), $request->toJson());
 	}
 
 	/**

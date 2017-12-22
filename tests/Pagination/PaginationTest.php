@@ -98,4 +98,22 @@ class PaginationTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, $request->getPage());
 	}
 
+	/**
+	 * @test
+	 */
+	public function unlimited()
+	{
+		$request = SearchRequest::create();
+		$this->assertEquals(false, $request->isUnlimited());
+
+		$request->unlimited();
+		$this->assertEquals(true, $request->isUnlimited());
+
+		$request->unlimited(false);
+		$this->assertEquals(false, $request->isUnlimited());
+
+		$request->all();
+		$this->assertEquals(true, $request->isUnlimited());
+	}
+
 }

@@ -603,6 +603,7 @@ class SearchRequest {
 			'term' => $this->term,
 			'page' => $this->page,
 			'limit' => $this->limit,
+			'unlimited' => $this->unlimited,
 			'selects' => $this->selects,
 			'groups' => $this->groups,
 			'sorts' => array_map(function(Sort $sort) {return $sort->toArray();}, $this->sorts),

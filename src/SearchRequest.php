@@ -122,9 +122,9 @@ class SearchRequest {
 		$this->addFacets($inputs['facets']);
 		$this->groupBy($inputs['groups']);
 		$this->addFilterSetFromArray($inputs['filterSet']);
-		$this->page = $inputs['page'];
-		$this->limit = $inputs['limit'];
 		$this->unlimited = isset($inputs['unlimited']) ? $inputs['unlimited'] : false;
+		$this->page($inputs['page']);
+		$this->limit($inputs['limit']);
 	}
 
 	/**
@@ -400,6 +400,7 @@ class SearchRequest {
 			throw new InvalidArgumentException("A page can only be a positive integer.");
 
 		$this->page = (int) $page;
+		$this->unlimited(false);
 
 		return $this;
 	}
@@ -431,6 +432,7 @@ class SearchRequest {
 			throw new InvalidArgumentException("A page row limit can only be a positive integer.");
 
 		$this->limit = (int) $limit;
+		$this->unlimited(false);
 
 		return $this;
 	}

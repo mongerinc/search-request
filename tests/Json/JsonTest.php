@@ -41,6 +41,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 			'term' => null,
 			'page' => 1,
 			'limit' => 10,
+			'unlimited' => false,
 			'selects' => [],
 			'groups' => [],
 			'sorts' => [],
@@ -55,6 +56,30 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 						]
 					]
 				]
+			],
+			'facets' => [],
+		]), $request->toJson());
+	}
+
+	/**
+	 * @test
+	 */
+	public function unlimited()
+	{
+		$request = SearchRequest::create()->unlimited();
+
+		$this->assertEquals(json_encode([
+			'term' => null,
+			'page' => 1,
+			'limit' => 10,
+			'unlimited' => true,
+			'selects' => [],
+			'groups' => [],
+			'sorts' => [],
+			'filterSet' => [],
+			'filterSet' => [
+				'boolean' => 'and',
+				'filters' => []
 			],
 			'facets' => [],
 		]), $request->toJson());
@@ -94,6 +119,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 			'term' => 'search this',
 			'page' => 5,
 			'limit' => 50,
+			'unlimited' => false,
 			'selects' => ['field1', 'field2'],
 			'groups' => ['field', 'anotherField'],
 			'sorts' => [

@@ -104,16 +104,16 @@ class PaginationTest extends \PHPUnit_Framework_TestCase {
 	public function unlimited()
 	{
 		$request = SearchRequest::create();
-		$this->assertEquals(false, $request->isUnlimited());
+		$this->assertFalse($request->isUnlimited());
 
 		$request->unlimited();
-		$this->assertEquals(true, $request->isUnlimited());
+		$this->assertTrue($request->isUnlimited());
 
 		$request->unlimited(false);
-		$this->assertEquals(false, $request->isUnlimited());
+		$this->assertFalse($request->isUnlimited());
 
 		$request->all();
-		$this->assertEquals(true, $request->isUnlimited());
+		$this->assertTrue($request->isUnlimited());
 	}
 
 	/**
@@ -122,10 +122,10 @@ class PaginationTest extends \PHPUnit_Framework_TestCase {
 	public function settingPaginationFalsifiesUnlimited()
 	{
 		$request = SearchRequest::create()->unlimited()->page(1);
-		$this->assertEquals(false, $request->isUnlimited());
+		$this->assertFalse($request->isUnlimited());
 
 		$request = SearchRequest::create()->unlimited()->limit(1);
-		$this->assertEquals(false, $request->isUnlimited());
+		$this->assertFalse($request->isUnlimited());
 	}
 
 }

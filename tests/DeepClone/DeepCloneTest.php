@@ -36,6 +36,7 @@ class DeepCloneTest extends \PHPUnit_Framework_TestCase {
 			'term' => 'something',
 			'page' => 2,
 			'limit' => 10,
+			'unlimited' => false,
 			'selects' => ['something'],
 			'groups' => ['something'],
 			'sorts' => [

@@ -55,6 +55,13 @@ class SearchRequest {
 	protected $limit = 10;
 
 	/**
+	 * Determines if pagination should be ignored
+	 *
+	 * @var bool
+	 */
+	protected $unlimited = false;
+
+	/**
 	 * The list of applicable filters
 	 *
 	 * @var FilterSet
@@ -115,8 +122,9 @@ class SearchRequest {
 		$this->addFacets($inputs['facets']);
 		$this->groupBy($inputs['groups']);
 		$this->addFilterSetFromArray($inputs['filterSet']);
-		$this->page = $inputs['page'];
-		$this->limit = $inputs['limit'];
+		$this->page($inputs['page']);
+		$this->limit($inputs['limit']);
+		$this->unlimited = isset($inputs['unlimited']) ? $inputs['unlimited'] : false;
 	}
 
 	/**
@@ -392,6 +400,7 @@ class SearchRequest {
 			throw new InvalidArgumentException("A page can only be a positive integer.");
 
 		$this->page = (int) $page;
+		$this->unlimited(false);
 
 		return $this;
 	}
@@ -423,8 +432,33 @@ class SearchRequest {
 			throw new InvalidArgumentException("A page row limit can only be a positive integer.");
 
 		$this->limit = (int) $limit;
+		$this->unlimited(false);
 
 		return $this;
+	}
+
+	/**
+	 * Sets the unlimited flag
+	 *
+	 * @param  bool    $unlimited
+	 *
+	 * @return this
+	 */
+	public function unlimited($unlimited = true)
+	{
+		$this->unlimited = (bool) $unlimited;
+
+		return $this;
+	}
+
+	/**
+	 * Alias for calling unlimited with true
+	 *
+	 * @return this
+	 */
+	public function all()
+	{
+		return $this->unlimited(true);
 	}
 
 	/**
@@ -445,6 +479,16 @@ class SearchRequest {
 	public function getLimit()
 	{
 		return $this->limit;
+	}
+
+	/**
+	 * Gets the unlimited flag
+	 *
+	 * @return bool
+	 */
+	public function isUnlimited()
+	{
+		return $this->unlimited;
 	}
 
 	/**
@@ -561,6 +605,7 @@ class SearchRequest {
 			'term' => $this->term,
 			'page' => $this->page,
 			'limit' => $this->limit,
+			'unlimited' => $this->unlimited,
 			'selects' => $this->selects,
 			'groups' => $this->groups,
 			'sorts' => array_map(function(Sort $sort) {return $sort->toArray();}, $this->sorts),

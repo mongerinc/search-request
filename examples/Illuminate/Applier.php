@@ -25,7 +25,8 @@ class Applier {
 
 		$this->group($query, $request);
 
-		$query->forPage($request->getPage(), $request->getLimit());
+		if (!$request->isUnlimited())
+			$query->forPage($request->getPage(), $request->getLimit());
 	}
 
 	protected function select(Query $query, SearchRequest $request)

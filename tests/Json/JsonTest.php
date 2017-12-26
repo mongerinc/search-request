@@ -86,6 +86,17 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @test
+	 */
+	public function unlimitedFromJson()
+	{
+		$originalRequest = SearchRequest::create()->limit(1)->unlimited();
+		$newRequest = SearchRequest::create($originalRequest->toJson());
+
+		$this->assertTrue($newRequest->isUnlimited());
+	}
+
+	/**
 	 * Gets the expected search request
 	 *
 	 * @return \Monger\SearchRequest\SearchRequest

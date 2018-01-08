@@ -25,4 +25,17 @@ class StaticCreateTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($baselineRequest->toArray(), $staticallyCreatedRequest->toArray());
 	}
 
+	/**
+	 * @test
+	 */
+	public function magicStaticCalls()
+	{
+		$baselineRequest = new SearchRequest;
+		$baselineRequest->where('something', true);
+
+		$staticallyCreatedRequest = SearchRequest::where('something', true);
+
+		$this->assertEquals($baselineRequest->toArray(), $staticallyCreatedRequest->toArray());
+	}
+
 }

@@ -1,5 +1,8 @@
 ## Changelog
 
+### 5.6.0
+- Adding `__callStatic` magic method
+
 ### 5.5.0
 - Adding the unlimited flag for ignoring pagination
 

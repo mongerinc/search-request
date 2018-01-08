@@ -677,6 +677,21 @@ class SearchRequest {
 	}
 
 	/**
+	 * Handle dynamic static method calls into the class
+	 *
+	 * @param  string   $method
+	 * @param  array    $parameters
+	 *
+	 * @return mixed
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		$instance = new static;
+
+		return call_user_func_array([$instance, $method], $parameters);
+	}
+
+	/**
 	 * Determines if the provided method should be passed through to the filter set
 	 *
 	 * @param  string    $method

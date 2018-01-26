@@ -119,6 +119,18 @@ class PaginationTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @test
 	 */
+	public function resetDoesntLimitRequest()
+	{
+		$request = new SearchRequest;
+
+		$request->all()->where('foo', true);
+
+		$this->assertTrue($request->isUnlimited());
+	}
+
+	/**
+	 * @test
+	 */
 	public function settingPaginationFalsifiesUnlimited()
 	{
 		$request = SearchRequest::create()->unlimited()->page(1);

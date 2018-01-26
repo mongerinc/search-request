@@ -705,7 +705,7 @@ class SearchRequest {
 		$isFilterRemover = strpos($method, 'removeFilter') !== false;
 
 		if ($isWhere && $this->pageShouldAutomaticallyReset)
-			$this->page(1);
+			$this->page = 1;
 
 		return $isWhere || $isFilterFetcher || $isFilterRemover;
 	}

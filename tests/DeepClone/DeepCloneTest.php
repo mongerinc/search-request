@@ -20,25 +20,19 @@ class DeepCloneTest extends \PHPUnit_Framework_TestCase {
 		                ->facet('something')->sortByCount()->setSortDirection('desc')->setMinimumCount(5)->includeOwnFilters()->page(2)->limit(100);
 
 		$newRequest = clone $originalRequest;
-
-		$expected = $this->getExpected();
-		$this->assertEquals(json_encode($expected), $newRequest->toJson());
-
-		$originalRequest->all();
-		$expected['unlimited'] = true;
-		$newRequest = clone $originalRequest;
 		$originalRequest->where('somethingElse', false);
-		$this->assertEquals(json_encode($expected), $newRequest->toJson());
+
+		$this->assertEquals($this->getExpectedJson(), $newRequest->toJson());
 	}
 
 	/**
 	 * Gets the expected json for the search request scenario
 	 *
-	 * @return array
+	 * @return string
 	 */
-	protected function getExpected()
+	protected function getExpectedJson()
 	{
-		return [
+		return json_encode([
 			'term' => 'something',
 			'page' => 2,
 			'limit' => 10,
@@ -65,7 +59,7 @@ class DeepCloneTest extends \PHPUnit_Framework_TestCase {
 					'excludesOwnFilters' => false,
 				]
 			],
-		];
+		]);
 	}
 
 }

@@ -1,7 +1,7 @@
 ## Changelog
 
 ### 5.6.1
-- Fixing clone for unlimited requests
+- Fixing automatic page reset undoing unlimited
 
 ### 5.6.0
 - Adding `__callStatic` magic method

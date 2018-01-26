@@ -1,5 +1,8 @@
 ## Changelog
 
+### 5.6.1
+- Fixing automatic page reset undoing unlimited
+
 ### 5.6.0
 - Adding `__callStatic` magic method
 

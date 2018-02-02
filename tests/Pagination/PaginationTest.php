@@ -123,8 +123,18 @@ class PaginationTest extends \PHPUnit_Framework_TestCase {
 	{
 		$request = new SearchRequest;
 
-		$request->all()->where('foo', true);
+		$request->all();
 
+		$request->where('foo', true);
+		$this->assertTrue($request->isUnlimited());
+
+		$request->sort('foo', 'desc');
+		$this->assertTrue($request->isUnlimited());
+
+		$request->term('foo');
+		$this->assertTrue($request->isUnlimited());
+
+		$request->groupBy('foo');
 		$this->assertTrue($request->isUnlimited());
 	}
 

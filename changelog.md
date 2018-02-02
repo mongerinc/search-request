@@ -1,5 +1,8 @@
 ## Changelog
 
+### 5.6.2
+- Fixing automatic page reset undoing unlimited for group by, term, and sort
+
 ### 5.6.1
 - Fixing automatic page reset undoing unlimited
 

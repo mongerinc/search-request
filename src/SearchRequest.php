@@ -211,7 +211,7 @@ class SearchRequest {
 		$this->term = $term;
 
 		if ($this->pageShouldAutomaticallyReset)
-			$this->page(1);
+			$this->page = 1;
 
 		return $this;
 	}
@@ -256,7 +256,7 @@ class SearchRequest {
 		$this->sorts[] = new Sort($field, $direction);
 
 		if ($this->pageShouldAutomaticallyReset)
-			$this->page(1);
+			$this->page = 1;
 
 		return $this;
 	}
@@ -370,7 +370,7 @@ class SearchRequest {
 		$this->groups = array_merge($this->groups, (array) $field);
 
 		if ($this->pageShouldAutomaticallyReset)
-			$this->page(1);
+			$this->page = 1;
 
 		return $this;
 	}

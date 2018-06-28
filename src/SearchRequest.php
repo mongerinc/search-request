@@ -73,7 +73,7 @@ class SearchRequest {
 	 *
 	 * @var bool
 	 */
-	protected $pageShouldAutomaticallyReset = true;
+	protected $pageShouldAutomaticallyReset = false;
 
 	/**
 	 * @param  mixed    $json    //null | string

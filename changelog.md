@@ -1,5 +1,8 @@
 ## Changelog
 
+### 6.0.0
+- Automatic page reset is now off by default
+
 ### 5.6.2
 - Fixing automatic page reset undoing unlimited for group by, term, and sort
 

@@ -50,9 +50,9 @@ class PaginationTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @test
 	 */
-	public function resetsByDefault()
+	public function resetsWhenEnabled()
 	{
-		$request = new SearchRequest;
+		$request = SearchRequest::create()->enableAutomaticPageReset();
 
 		$request->page(5)->where('foo', true);
 		$this->assertEquals(1, $request->getPage());
@@ -70,9 +70,9 @@ class PaginationTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @test
 	 */
-	public function noResetsWhenDisabled()
+	public function noResetsByDefault()
 	{
-		$request = SearchRequest::create()->disableAutomaticPageReset();
+		$request = SearchRequest::create();
 
 		$request->page(5)->where('foo', true);
 		$this->assertEquals(5, $request->getPage());
